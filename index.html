@@ -1,0 +1,42 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>一问三答：GPT / Gemini / Grok</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>一问三答：GPT / Gemini / Grok</h1>
+      <div class="grid">
+        <section class="card">
+          <h2>提问区</h2>
+          <textarea id="question" placeholder="输入你的问题..."></textarea>
+          <div class="actions">
+            <button id="askBtn">同时提问三家</button>
+            <button id="clearBtn" type="button">清空</button>
+          </div>
+          <p class="muted">提示：这里走 API 调用，密钥放在服务端，不会暴露在前端。</p>
+        </section>
+
+        <section class="card">
+          <h2>GPT</h2>
+          <div id="gpt" class="output muted">等待提问...</div>
+        </section>
+
+        <section class="card">
+          <h2>Gemini</h2>
+          <div id="gemini" class="output muted">等待提问...</div>
+        </section>
+
+        <section class="card">
+          <h2>Grok</h2>
+          <div id="grok" class="output muted">等待提问...</div>
+        </section>
+      </div>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
