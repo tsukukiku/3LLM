@@ -57,14 +57,23 @@ h1 {
 }
 
 .card h2 {
-  margin: 0 0 10px;
+  margin: 0;
   font-size: 18px;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .mode-row {
   display: inline-flex;
   gap: 6px;
-  margin: 0 0 12px;
+  flex-shrink: 0;
+  margin: 0;
   padding: 4px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -129,6 +138,15 @@ button {
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.export-btn {
+  margin-left: auto;
+  background: #334155;
+}
+
+.export-btn:hover {
+  background: #1e293b;
 }
 
 .output {

@@ -20,41 +20,47 @@
           <div id="questionMeta" class="meta">0 / 99 字</div>
           <div class="actions">
             <button id="askBtn">提交用户提问</button>
-            <button id="exportBtn" type="button">导出 TXT</button>
+            <button id="exportBtn" class="export-btn" type="button">导出问答TXT</button>
             <button id="clearBtn" type="button">清空</button>
           </div>
           <p class="muted">API 模式会调用后端；网页版模式会打开官方网页手动提问。</p>
         </section>
 
         <section class="card">
-          <h2>GPT</h2>
-          <div class="mode-row" data-provider="gpt">
-            <label><input type="radio" name="mode-gpt" value="api" checked /> API</label>
-            <label><input type="radio" name="mode-gpt" value="web" /> 网页</label>
+          <div class="card-head">
+            <h2>GPT</h2>
+            <div class="mode-row" data-provider="gpt">
+              <label><input type="radio" name="mode-gpt" value="api" checked /> API</label>
+              <label><input type="radio" name="mode-gpt" value="web" /> 网页</label>
+            </div>
           </div>
           <div id="gpt" class="output muted">等待提问...</div>
         </section>
 
         <section class="card">
-          <h2>Gemini</h2>
-          <div class="mode-row" data-provider="gemini">
-            <label><input type="radio" name="mode-gemini" value="api" /> API</label>
-            <label><input type="radio" name="mode-gemini" value="web" checked /> 网页</label>
+          <div class="card-head">
+            <h2>Gemini</h2>
+            <div class="mode-row" data-provider="gemini">
+              <label><input type="radio" name="mode-gemini" value="api" /> API</label>
+              <label><input type="radio" name="mode-gemini" value="web" checked /> 网页</label>
+            </div>
           </div>
           <div id="gemini" class="output muted">等待提问...</div>
         </section>
 
         <section class="card">
-          <h2>Grok</h2>
-          <div class="mode-row" data-provider="grok">
-            <label><input type="radio" name="mode-grok" value="api" /> API</label>
-            <label><input type="radio" name="mode-grok" value="web" checked /> 网页</label>
+          <div class="card-head">
+            <h2>Grok</h2>
+            <div class="mode-row" data-provider="grok">
+              <label><input type="radio" name="mode-grok" value="api" /> API</label>
+              <label><input type="radio" name="mode-grok" value="web" checked /> 网页</label>
+            </div>
           </div>
           <div id="grok" class="output muted">等待提问...</div>
         </section>
       </div>
     </div>
 
-    <script src="./app.js?v=20260520-ywzz"></script>
+    <script src="./app.js?v=20260520-head-mode"></script>
   </body>
 </html>
