@@ -1,6 +1,7 @@
 const askBtn = document.getElementById("askBtn");
 const exportBtn = document.getElementById("exportBtn");
 const clearBtn = document.getElementById("clearBtn");
+const accessCodeEl = document.getElementById("accessCode");
 const questionEl = document.getElementById("question");
 const questionMeta = document.getElementById("questionMeta");
 
@@ -10,7 +11,7 @@ const panels = {
   grok: document.getElementById("grok")
 };
 
-const APP_VERSION = "20260520-ywzz";
+const APP_VERSION = "20260520-access-code";
 const API_BASE_URL = "https://api.star-style-studio.net";
 const MAX_QUESTION_CHARS = 99;
 
@@ -166,7 +167,12 @@ function exportTxt() {
 }
 
 askBtn.addEventListener("click", async () => {
+  const accessCode = accessCodeEl.value.trim();
   const question = questionEl.value.trim();
+  if (!accessCode) {
+    alert("请先输入口令");
+    return;
+  }
   if (!question) {
     alert("请先输入用户提问");
     return;
@@ -191,7 +197,7 @@ askBtn.addEventListener("click", async () => {
     const resp = await fetch(`${API_BASE_URL}/api/ask`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question, providers })
+      body: JSON.stringify({ question, providers, accessCode })
     });
 
     const data = await resp.json();

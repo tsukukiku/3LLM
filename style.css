@@ -111,6 +111,14 @@ textarea {
   resize: vertical;
 }
 
+.code-input {
+  width: 78px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  padding: 10px;
+  font-size: 15px;
+}
+
 .meta {
   margin-top: 6px;
   color: var(--muted);
