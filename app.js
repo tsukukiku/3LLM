@@ -7,7 +7,7 @@ const panels = {
   gemini: document.getElementById("gemini"),
   grok: document.getElementById("grok")
 };
-const API_BASE_URL = "https://tsukukiku.synology.me";
+const API_BASE_URL = "https://api.star-style-studio.net";
 
 function setLoading() {
   Object.values(panels).forEach((el) => {
