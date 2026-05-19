@@ -7,6 +7,7 @@ const panels = {
   gemini: document.getElementById("gemini"),
   grok: document.getElementById("grok")
 };
+const APP_VERSION = "20260520-3llm-api";
 const API_BASE_URL = "https://api.star-style-studio.net";
 
 function setLoading() {
