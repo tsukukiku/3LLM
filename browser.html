@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>一问三知 - 四分屏浏览器</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="browser-page">
+    <div class="browser-shell">
+      <header class="browser-topbar">
+        <h1>四分屏浏览器</h1>
+        <a href="./index.html">返回一问三知</a>
+      </header>
+
+      <main class="browser-grid">
+        <section class="browser-pane" data-pane="0">
+          <form class="browser-toolbar">
+            <input class="browser-url" type="text" value="https://chatgpt.com/" aria-label="窗口 1 网址" />
+            <button type="submit">进入</button>
+            <button class="open-external" type="button">新窗口</button>
+          </form>
+          <iframe title="窗口 1" sandbox="allow-forms allow-scripts allow-same-origin allow-popups"></iframe>
+        </section>
+
+        <section class="browser-pane" data-pane="1">
+          <form class="browser-toolbar">
+            <input class="browser-url" type="text" value="https://gemini.google.com/" aria-label="窗口 2 网址" />
+            <button type="submit">进入</button>
+            <button class="open-external" type="button">新窗口</button>
+          </form>
+          <iframe title="窗口 2" sandbox="allow-forms allow-scripts allow-same-origin allow-popups"></iframe>
+        </section>
+
+        <section class="browser-pane" data-pane="2">
+          <form class="browser-toolbar">
+            <input class="browser-url" type="text" value="https://grok.com/" aria-label="窗口 3 网址" />
+            <button type="submit">进入</button>
+            <button class="open-external" type="button">新窗口</button>
+          </form>
+          <iframe title="窗口 3" sandbox="allow-forms allow-scripts allow-same-origin allow-popups"></iframe>
+        </section>
+
+        <section class="browser-pane" data-pane="3">
+          <form class="browser-toolbar">
+            <input class="browser-url" type="text" value="https://www.google.com/search?q=AI" aria-label="窗口 4 网址" />
+            <button type="submit">进入</button>
+            <button class="open-external" type="button">新窗口</button>
+          </form>
+          <iframe title="窗口 4" sandbox="allow-forms allow-scripts allow-same-origin allow-popups"></iframe>
+        </section>
+      </main>
+    </div>
+
+    <script src="./browser.js?v=20260520"></script>
+  </body>
+</html>
