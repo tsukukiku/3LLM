@@ -141,6 +141,13 @@ h1 {
   font-size: 16px;
 }
 
+.section-title em {
+  font-style: normal;
+  color: var(--muted-2);
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .icon-badge {
   width: 25px;
   height: 25px;
@@ -199,6 +206,24 @@ textarea:focus {
   align-items: center;
   gap: 10px;
   margin-top: 6px;
+}
+
+.passcode {
+  width: 82px;
+  height: 28px;
+  border: 1px solid rgba(50, 70, 80, 0.13);
+  border-radius: 10px;
+  outline: none;
+  padding: 0 10px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text);
+  font: 800 13px/1 var(--font);
+}
+
+.passcode:focus {
+  border-color: rgba(15, 159, 142, 0.45);
+  box-shadow: 0 0 0 4px rgba(15, 159, 142, 0.1);
+  background: white;
 }
 
 button {

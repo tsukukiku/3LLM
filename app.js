@@ -2,6 +2,7 @@ const askBtn = document.getElementById("askBtn");
 const clearBtn = document.getElementById("clearBtn");
 const exportBtn = document.getElementById("exportBtn");
 const questionEl = document.getElementById("question");
+const passcodeEl = document.getElementById("passcode");
 const statusEl = document.getElementById("status");
 const countEl = document.getElementById("count");
 
@@ -22,6 +23,17 @@ const API_BASE_URL = ["star-style-studio.net", "www.star-style-studio.net"].incl
   : "";
 const MAX_QUESTION_CHARS = 200;
 
+function getAskMode() {
+  const code = passcodeEl.value.trim();
+  if (code === "ASK3") {
+    return "normal";
+  }
+  if (code === "ASK5.3") {
+    return "high";
+  }
+  return "";
+}
+
 function setState(key, text, isError = false) {
   states[key].textContent = text;
   states[key].className = isError ? "error" : "";
@@ -40,7 +52,7 @@ function updateCount() {
 }
 
 function setLoading() {
-  statusEl.textContent = "请求中";
+  statusEl.textContent = getAskMode() === "high" ? "高阶请求中" : "请求中";
   for (const key of Object.keys(panels)) {
     panels[key].textContent = "思考中...";
     panels[key].className = "answer muted";
@@ -73,9 +85,15 @@ function renderResult(data) {
 
 async function askAll() {
   const question = questionEl.value.trim();
+  const mode = getAskMode();
   if (!question) {
     alert("请先输入问题");
     questionEl.focus();
+    return;
+  }
+  if (!mode) {
+    alert("请输入正确口令：ASK3 或 ASK5.3");
+    passcodeEl.focus();
     return;
   }
   if (question.length > MAX_QUESTION_CHARS) {
@@ -91,7 +109,7 @@ async function askAll() {
     const resp = await fetch(`${API_BASE_URL}/api/ask`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question })
+      body: JSON.stringify({ question, mode })
     });
     const data = await resp.json();
     if (!resp.ok) {
@@ -112,6 +130,7 @@ async function askAll() {
 
 function clearAll() {
   questionEl.value = "";
+  passcodeEl.value = "";
   statusEl.textContent = "";
   for (const key of Object.keys(panels)) {
     panels[key].textContent = key === "gpt"

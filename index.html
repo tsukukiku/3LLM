@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/site-icon-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="./assets/site-icon-192.png" />
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="./style.css?v=20260521-buttons" />
+    <link rel="stylesheet" href="./style.css?v=20260521-passcode" />
   </head>
   <body>
     <main class="browser">
@@ -25,7 +25,11 @@
           <article class="card question-card">
             <div class="card-inner">
               <div class="section-head">
-                <div class="section-title"><span class="icon-badge">?</span>提出你的问题</div>
+                <div class="section-title">
+                  <span class="icon-badge">?</span>
+                  <span>提出你的问题</span>
+                  <em>每IP每天5问</em>
+                </div>
                 <span id="status"></span>
               </div>
               <div class="textarea-wrap">
@@ -33,6 +37,7 @@
                 <span class="count" id="count">0 / 200 字</span>
               </div>
               <div class="actions">
+                <input id="passcode" class="passcode" type="password" placeholder="口令" autocomplete="off" />
                 <button id="askBtn" class="primary" type="button">✦ 提交问题</button>
                 <button id="clearBtn" class="secondary" type="button">清空</button>
                 <button id="exportBtn" class="export" type="button">下载 TXT</button>
@@ -83,6 +88,6 @@
       </section>
     </main>
 
-    <script src="./app.js?v=20260521-buttons"></script>
+    <script src="./app.js?v=20260521-passcode"></script>
   </body>
 </html>
