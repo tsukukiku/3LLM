@@ -92,11 +92,6 @@ h1 {
   line-height: 1.6;
 }
 
-.top-export {
-  align-self: start;
-  background: var(--slate);
-}
-
 .stack {
   display: grid;
   gap: 16px;
@@ -117,12 +112,12 @@ h1 {
 }
 
 .question-card {
-  padding: 22px;
+  padding: 12px 18px;
 }
 
 .section-head,
 .model-head {
-  min-height: 38px;
+  min-height: 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -130,7 +125,7 @@ h1 {
 }
 
 .section-head {
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .section-title,
@@ -143,16 +138,16 @@ h1 {
 }
 
 .section-title {
-  font-size: 19px;
+  font-size: 16px;
 }
 
 .icon-badge {
-  width: 32px;
-  height: 32px;
+  width: 25px;
+  height: 25px;
   display: grid;
   place-items: center;
   border: 1px solid rgba(15, 159, 142, 0.16);
-  border-radius: 11px;
+  border-radius: 9px;
   background: rgba(15, 159, 142, 0.11);
   color: var(--teal);
   font-weight: 900;
@@ -200,19 +195,19 @@ textarea:focus {
 }
 
 .actions {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
+  align-items: center;
   gap: 10px;
-  margin-top: 12px;
+  margin-top: 6px;
 }
 
 button {
-  height: 42px;
+  height: 28px;
   border: 0;
-  border-radius: 14px;
-  padding: 0 16px;
+  border-radius: 10px;
+  padding: 0 13px;
   color: white;
-  font: 850 14px/1 var(--font);
+  font: 850 13px/1 var(--font);
   cursor: pointer;
   transition: transform 0.16s ease, background 0.16s ease, opacity 0.16s ease;
 }
@@ -227,18 +222,25 @@ button:disabled {
 }
 
 .primary {
+  width: 112px;
   background: linear-gradient(135deg, var(--teal), #08b39d);
-  box-shadow: 0 14px 28px rgba(15, 159, 142, 0.22);
+  box-shadow: 0 10px 20px rgba(15, 159, 142, 0.18);
 }
 
 .secondary {
+  width: 82px;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(50, 70, 80, 0.13);
   color: #314151;
 }
 
+.export {
+  width: 104px;
+  background: var(--slate);
+}
+
 .helper {
-  margin-top: 11px;
+  margin-top: 6px;
   color: var(--muted-2);
   font-size: 13px;
 }
@@ -319,11 +321,6 @@ button:disabled {
     grid-template-columns: auto 1fr;
   }
 
-  .top-export {
-    grid-column: 1 / -1;
-    width: 100%;
-  }
-
   .site-logo {
     width: 62px;
     height: 62px;
@@ -334,6 +331,10 @@ button:disabled {
   }
 
   .question-card {
-    padding: 16px;
+    padding: 10px 12px;
+  }
+
+  .actions {
+    flex-wrap: wrap;
   }
 }

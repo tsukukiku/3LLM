@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/site-icon-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="./assets/site-icon-192.png" />
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./style.css?v=20260521-buttons" />
   </head>
   <body>
     <main class="browser">
@@ -19,7 +19,6 @@
             <strong>三AI行，必有我师</strong>
             <p>同时向三大 AI 提问，比较不同模型的回答，取长补短，启发思考。</p>
           </div>
-          <button id="exportBtn" class="top-export" type="button">下载 TXT</button>
         </header>
 
         <section class="stack">
@@ -27,7 +26,7 @@
             <div class="card-inner">
               <div class="section-head">
                 <div class="section-title"><span class="icon-badge">?</span>提出你的问题</div>
-                <span id="status">等待提问</span>
+                <span id="status"></span>
               </div>
               <div class="textarea-wrap">
                 <textarea id="question" maxlength="200" placeholder="输入你的问题..."></textarea>
@@ -36,6 +35,7 @@
               <div class="actions">
                 <button id="askBtn" class="primary" type="button">✦ 提交问题</button>
                 <button id="clearBtn" class="secondary" type="button">清空</button>
+                <button id="exportBtn" class="export" type="button">下载 TXT</button>
               </div>
               <p class="helper">将问题与三位 AI 的回答整合在一起，支持 TXT 格式下载。</p>
             </div>
@@ -48,7 +48,7 @@
                   <img src="./assets/chatgpt-32.png" alt="" />
                   <h2>ChatGPT</h2>
                 </div>
-                <span id="gptState">等待提问</span>
+                <span id="gptState"></span>
               </div>
               <div id="gpt" class="answer muted">提交问题后，这里会显示 ChatGPT 的纯文本回答。文字较多时可上下滚动查看。</div>
             </div>
@@ -61,7 +61,7 @@
                   <img src="./assets/grok-32.png" alt="" />
                   <h2>Grok</h2>
                 </div>
-                <span id="grokState">等待提问</span>
+                <span id="grokState"></span>
               </div>
               <div id="grok" class="answer muted">提交问题后，这里会显示 Grok 的纯文本回答。文字较多时可上下滚动查看。</div>
             </div>
@@ -74,7 +74,7 @@
                   <img src="./assets/gemini-32.png" alt="" />
                   <h2>Gemini</h2>
                 </div>
-                <span id="geminiState">等待提问</span>
+                <span id="geminiState"></span>
               </div>
               <div id="gemini" class="answer muted">提交问题后，这里会显示 Gemini 的纯文本回答。文字较多时可上下滚动查看。</div>
             </div>
@@ -83,6 +83,6 @@
       </section>
     </main>
 
-    <script src="./app.js?v=20260521-compact-200"></script>
+    <script src="./app.js?v=20260521-buttons"></script>
   </body>
 </html>
