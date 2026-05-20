@@ -3,58 +3,86 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>一问三知 API 四窗口</title>
+    <title>一问三知</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/site-icon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./assets/site-icon-192.png" />
+    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png" />
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <main class="app">
-      <header class="topbar">
-        <div>
-          <h1>一问三知</h1>
-          <p>一个提问，同时请求 GPT、Gemini、Grok。</p>
-        </div>
-        <button id="exportBtn" type="button">导出 TXT</button>
-      </header>
+    <main class="browser">
+      <section class="app">
+        <header class="hero">
+          <img class="site-logo" src="./assets/site-icon-64.png" alt="一问三知" />
+          <div class="hero-copy">
+            <h1>一问三知</h1>
+            <strong>三AI行，必有我师</strong>
+            <p>同时向三大 AI 提问，比较不同模型的回答，取长补短，启发思考。</p>
+          </div>
+          <button id="exportBtn" class="top-export" type="button">下载 TXT</button>
+        </header>
 
-      <section class="grid">
-        <article class="panel ask-panel">
-          <div class="panel-head">
-            <h2>用户提问</h2>
-            <span id="status">待提问</span>
-          </div>
-          <textarea id="question" placeholder="输入问题，然后点击“一问三知”"></textarea>
-          <div class="actions">
-            <button id="askBtn" type="button">一问三知</button>
-            <button id="clearBtn" class="secondary" type="button">清空</button>
-          </div>
-        </article>
+        <section class="stack">
+          <article class="card question-card">
+            <div class="card-inner">
+              <div class="section-head">
+                <div class="section-title"><span class="icon-badge">?</span>提出你的问题</div>
+                <span id="status">等待提问</span>
+              </div>
+              <div class="textarea-wrap">
+                <textarea id="question" maxlength="200" placeholder="输入你的问题..."></textarea>
+                <span class="count" id="count">0 / 200 字</span>
+              </div>
+              <div class="actions">
+                <button id="askBtn" class="primary" type="button">✦ 提交问题</button>
+                <button id="clearBtn" class="secondary" type="button">清空</button>
+              </div>
+              <p class="helper">将问题与三位 AI 的回答整合在一起，支持 TXT 格式下载。</p>
+            </div>
+          </article>
 
-        <article class="panel">
-          <div class="panel-head">
-            <h2>GPT</h2>
-            <span id="gptState">等待</span>
-          </div>
-          <div id="gpt" class="answer muted">等待提问...</div>
-        </article>
+          <article class="card response-card chatgpt-card">
+            <div class="card-inner">
+              <div class="model-head">
+                <div class="model-title">
+                  <img src="./assets/chatgpt-32.png" alt="" />
+                  <h2>ChatGPT</h2>
+                </div>
+                <span id="gptState">等待提问</span>
+              </div>
+              <div id="gpt" class="answer muted">提交问题后，这里会显示 ChatGPT 的纯文本回答。文字较多时可上下滚动查看。</div>
+            </div>
+          </article>
 
-        <article class="panel">
-          <div class="panel-head">
-            <h2>Gemini</h2>
-            <span id="geminiState">等待</span>
-          </div>
-          <div id="gemini" class="answer muted">等待提问...</div>
-        </article>
+          <article class="card response-card grok-card">
+            <div class="card-inner">
+              <div class="model-head">
+                <div class="model-title">
+                  <img src="./assets/grok-32.png" alt="" />
+                  <h2>Grok</h2>
+                </div>
+                <span id="grokState">等待提问</span>
+              </div>
+              <div id="grok" class="answer muted">提交问题后，这里会显示 Grok 的纯文本回答。文字较多时可上下滚动查看。</div>
+            </div>
+          </article>
 
-        <article class="panel">
-          <div class="panel-head">
-            <h2>Grok</h2>
-            <span id="grokState">等待</span>
-          </div>
-          <div id="grok" class="answer muted">等待提问...</div>
-        </article>
+          <article class="card response-card gemini-card">
+            <div class="card-inner">
+              <div class="model-head">
+                <div class="model-title">
+                  <img src="./assets/gemini-32.png" alt="" />
+                  <h2>Gemini</h2>
+                </div>
+                <span id="geminiState">等待提问</span>
+              </div>
+              <div id="gemini" class="answer muted">提交问题后，这里会显示 Gemini 的纯文本回答。文字较多时可上下滚动查看。</div>
+            </div>
+          </article>
+        </section>
       </section>
     </main>
 
-    <script src="./app.js?v=20260520-api4"></script>
+    <script src="./app.js?v=20260521-compact-200"></script>
   </body>
 </html>
