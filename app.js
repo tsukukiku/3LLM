@@ -1,9 +1,8 @@
 const askBtn = document.getElementById("askBtn");
-const exportBtn = document.getElementById("exportBtn");
 const clearBtn = document.getElementById("clearBtn");
-const accessCodeEl = document.getElementById("accessCode");
+const exportBtn = document.getElementById("exportBtn");
 const questionEl = document.getElementById("question");
-const questionMeta = document.getElementById("questionMeta");
+const statusEl = document.getElementById("status");
 
 const panels = {
   gpt: document.getElementById("gpt"),
@@ -11,234 +10,122 @@ const panels = {
   grok: document.getElementById("grok")
 };
 
-const APP_VERSION = "20260520-access-code";
-const API_BASE_URL = "https://api.star-style-studio.net";
-const MAX_QUESTION_CHARS = 99;
+const API_BASE_URL = location.hostname === "www.star-style-studio.net"
+  ? "https://api.star-style-studio.net"
+  : "";
 
-const providerUrls = {
-  gpt: "https://chatgpt.com/",
-  gemini: "https://gemini.google.com/",
-  grok: "https://grok.com/"
+const states = {
+  gpt: document.getElementById("gptState"),
+  gemini: document.getElementById("geminiState"),
+  grok: document.getElementById("grokState")
 };
 
-const providerNames = {
-  gpt: "ChatGPT",
-  gemini: "Gemini",
-  grok: "Grok"
-};
-
-let lastAnswers = {
-  gpt: "",
-  gemini: "",
-  grok: ""
-};
-
-function getMode(key) {
-  return document.querySelector(`input[name="mode-${key}"]:checked`)?.value || "api";
-}
-
-function getProviderModes() {
-  return {
-    gpt: getMode("gpt"),
-    gemini: getMode("gemini"),
-    grok: getMode("grok")
-  };
-}
-
-function updateQuestionMeta() {
-  const count = questionEl.value.trim().length;
-  questionMeta.textContent = `${count} / ${MAX_QUESTION_CHARS} 字`;
-  questionMeta.className = count > MAX_QUESTION_CHARS ? "meta error" : "meta";
-}
-
-function bindCopyButton(el) {
-  el.querySelector("[data-copy-question]").addEventListener("click", async () => {
-    const question = questionEl.value.trim();
-    if (!question) {
-      alert("请先输入用户提问");
-      return;
-    }
-    await navigator.clipboard.writeText(question);
-  });
-}
-
-function renderManualMode(el, key) {
-  lastAnswers[key] = "网页版模式：请在官方网页手动提问。";
-  el.className = "output manual-fallback";
-  el.innerHTML = `
-    <div>${providerNames[key]} 当前选择：网页版。</div>
-    <div class="muted">复制用户提问后，在官方网页粘贴发送。</div>
-    <div class="manual-actions">
-      <button type="button" data-copy-question>复制用户提问</button>
-      <a class="provider-link" href="${providerUrls[key]}" target="_blank" rel="noreferrer">打开 ${providerNames[key]}</a>
-    </div>
-  `;
-  bindCopyButton(el);
-}
-
-function renderErrorOrManualFallback(el, key, error) {
-  if (!error.includes("未配置")) {
-    el.textContent = error;
-    el.className = "output error";
-    lastAnswers[key] = error;
-    return;
-  }
-
-  el.className = "output manual-fallback";
-  el.innerHTML = `
-    <div>${providerNames[key]} API key 未配置。</div>
-    <div class="muted">可以切换到网页版，或先复制用户提问去官方网页手动提问。</div>
-    <div class="manual-actions">
-      <button type="button" data-copy-question>复制用户提问</button>
-      <a class="provider-link" href="${providerUrls[key]}" target="_blank" rel="noreferrer">打开 ${providerNames[key]}</a>
-    </div>
-  `;
-  lastAnswers[key] = `${providerNames[key]} API key 未配置。`;
-  bindCopyButton(el);
+function setState(key, text, isError = false) {
+  states[key].textContent = text;
+  states[key].className = isError ? "error" : "";
 }
 
 function setLoading() {
-  const modes = getProviderModes();
-  for (const key of ["gpt", "gemini", "grok"]) {
-    if (modes[key] === "api") {
-      panels[key].textContent = "思考中...";
-      panels[key].className = "output muted";
-    } else {
-      renderManualMode(panels[key], key);
-    }
+  statusEl.textContent = "请求中";
+  for (const key of Object.keys(panels)) {
+    panels[key].textContent = "思考中...";
+    panels[key].className = "answer muted";
+    setState(key, "请求中");
   }
 }
 
-function fillResult(data) {
-  for (const key of ["gpt", "gemini", "grok"]) {
-    if (getMode(key) === "web") {
-      renderManualMode(panels[key], key);
-      continue;
-    }
-
+function renderResult(data) {
+  statusEl.textContent = "完成";
+  for (const key of Object.keys(panels)) {
     const item = data?.result?.[key];
-    const el = panels[key];
     if (!item) {
-      el.textContent = "无返回";
-      el.className = "output error";
-      lastAnswers[key] = "无返回";
+      panels[key].textContent = "无返回";
+      panels[key].className = "answer error";
+      setState(key, "无返回", true);
       continue;
     }
 
     if (item.ok) {
-      el.textContent = item.text;
-      el.className = "output";
-      lastAnswers[key] = item.text;
+      panels[key].textContent = item.text || "(无文本)";
+      panels[key].className = "answer";
+      setState(key, "完成");
     } else {
-      renderErrorOrManualFallback(el, key, item.error || "请求失败");
+      panels[key].textContent = item.error || "请求失败";
+      panels[key].className = "answer error";
+      setState(key, "失败", true);
     }
   }
 }
 
-function getPanelText(key) {
-  return panels[key].innerText.trim() || lastAnswers[key] || "(无内容)";
+async function askAll() {
+  const question = questionEl.value.trim();
+  if (!question) {
+    alert("请先输入问题");
+    return;
+  }
+
+  askBtn.disabled = true;
+  setLoading();
+
+  try {
+    const resp = await fetch(`${API_BASE_URL}/api/ask`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question })
+    });
+    const data = await resp.json();
+    if (!resp.ok) {
+      throw new Error(data?.error || "请求失败");
+    }
+    renderResult(data);
+  } catch (error) {
+    statusEl.textContent = "失败";
+    for (const key of Object.keys(panels)) {
+      panels[key].textContent = error?.message || String(error);
+      panels[key].className = "answer error";
+      setState(key, "失败", true);
+    }
+  } finally {
+    askBtn.disabled = false;
+  }
+}
+
+function clearAll() {
+  questionEl.value = "";
+  statusEl.textContent = "待提问";
+  for (const key of Object.keys(panels)) {
+    panels[key].textContent = "等待提问...";
+    panels[key].className = "answer muted";
+    setState(key, "等待");
+  }
 }
 
 function exportTxt() {
-  const question = questionEl.value.trim();
   const content = [
-    "一问三知导出",
+    "一问三知 API 四窗口导出",
     "",
     "【用户提问】",
-    question || "(空)",
+    questionEl.value.trim() || "(空)",
     "",
     "【GPT】",
-    getPanelText("gpt"),
+    panels.gpt.innerText.trim() || "(空)",
     "",
     "【Gemini】",
-    getPanelText("gemini"),
+    panels.gemini.innerText.trim() || "(空)",
     "",
     "【Grok】",
-    getPanelText("grok")
+    panels.grok.innerText.trim() || "(空)"
   ].join("\n");
 
   const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `yuwen-sanzhi-${new Date().toISOString().slice(0, 10)}.txt`;
+  a.download = `api-4window-${new Date().toISOString().slice(0, 10)}.txt`;
   a.click();
   URL.revokeObjectURL(url);
 }
 
-askBtn.addEventListener("click", async () => {
-  const accessCode = accessCodeEl.value.trim();
-  const question = questionEl.value.trim();
-  if (!accessCode) {
-    alert("请先输入口令");
-    return;
-  }
-  if (!question) {
-    alert("请先输入用户提问");
-    return;
-  }
-  if (question.length > MAX_QUESTION_CHARS) {
-    alert("用户提问必须少于 100 字");
-    return;
-  }
-
-  askBtn.disabled = true;
-  setLoading();
-  lastAnswers = { gpt: "", gemini: "", grok: "" };
-
-  const providers = getProviderModes();
-  const hasApiProvider = Object.values(providers).includes("api");
-  if (!hasApiProvider) {
-    askBtn.disabled = false;
-    return;
-  }
-
-  try {
-    const resp = await fetch(`${API_BASE_URL}/api/ask`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question, providers, accessCode })
-    });
-
-    const data = await resp.json();
-    if (!resp.ok) {
-      throw new Error(data?.error || "请求失败");
-    }
-    fillResult(data);
-  } catch (err) {
-    const msg = err?.message || String(err);
-    Object.values(panels).forEach((el) => {
-      el.textContent = msg;
-      el.className = "output error";
-    });
-  } finally {
-    askBtn.disabled = false;
-  }
-});
-
-clearBtn.addEventListener("click", () => {
-  questionEl.value = "";
-  lastAnswers = { gpt: "", gemini: "", grok: "" };
-  Object.values(panels).forEach((el) => {
-    el.textContent = "等待提问...";
-    el.className = "output muted";
-  });
-  updateQuestionMeta();
-});
-
-questionEl.addEventListener("input", updateQuestionMeta);
+askBtn.addEventListener("click", askAll);
+clearBtn.addEventListener("click", clearAll);
 exportBtn.addEventListener("click", exportTxt);
-
-document.querySelectorAll(".mode-row input").forEach((input) => {
-  input.addEventListener("change", () => {
-    const key = input.name.replace("mode-", "");
-    if (getMode(key) === "web") {
-      renderManualMode(panels[key], key);
-    } else {
-      panels[key].textContent = "等待提问...";
-      panels[key].className = "output muted";
-    }
-  });
-});
-
-updateQuestionMeta();
