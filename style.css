@@ -52,13 +52,13 @@ body {
   grid-template-columns: auto 1fr auto;
   gap: 14px;
   align-items: center;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .site-logo {
-  width: 74px;
-  height: 74px;
-  border-radius: 20px;
+  width: 68px;
+  height: 68px;
+  border-radius: 18px;
   box-shadow: 0 18px 38px rgba(31, 149, 166, 0.22);
 }
 
@@ -78,15 +78,23 @@ h1 {
   letter-spacing: -0.04em;
 }
 
+.hero-title-line {
+  display: flex;
+  align-items: baseline;
+  gap: 13px;
+  flex-wrap: wrap;
+}
+
 .hero strong {
-  display: block;
-  margin-top: 8px;
+  display: inline-block;
+  margin-top: 0;
   color: var(--teal);
   font-size: 17px;
+  white-space: nowrap;
 }
 
 .hero p {
-  margin-top: 8px;
+  margin-top: 7px;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.6;
@@ -138,13 +146,13 @@ h1 {
 }
 
 .section-title {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .section-title em {
   font-style: normal;
   color: var(--muted-2);
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 800;
 }
 
@@ -181,7 +189,12 @@ textarea {
   padding: 18px;
   background: rgba(255, 255, 255, 0.86);
   color: var(--text);
-  font: 15px/1.72 var(--font);
+  font: 14px/1.72 var(--font);
+}
+
+textarea::placeholder {
+  color: var(--muted-2);
+  font-size: 14px;
 }
 
 textarea:focus {
@@ -347,8 +360,8 @@ button:disabled {
   }
 
   .site-logo {
-    width: 62px;
-    height: 62px;
+    width: 60px;
+    height: 60px;
   }
 
   h1 {
