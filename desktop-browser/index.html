@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>四分屏隔离浏览器</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <h1>四分屏隔离浏览器</h1>
+        <p>每个分屏使用独立持久分区，登录状态互不共享。</p>
+      </div>
+      <button id="resetLayout" type="button">重载四屏</button>
+    </header>
+
+    <main class="pane-grid">
+      <section class="pane" data-pane="1">
+        <form class="toolbar">
+          <strong>屏幕 1</strong>
+          <button class="back" type="button" title="后退">‹</button>
+          <button class="forward" type="button" title="前进">›</button>
+          <button class="reload" type="button" title="刷新">↻</button>
+          <input class="url-input" type="text" value="https://mail.google.com/" aria-label="屏幕 1 网址" />
+          <button type="submit">进入</button>
+          <button class="external" type="button">外部打开</button>
+        </form>
+        <webview partition="persist:screen-1" src="https://mail.google.com/"></webview>
+      </section>
+
+      <section class="pane" data-pane="2">
+        <form class="toolbar">
+          <strong>屏幕 2</strong>
+          <button class="back" type="button" title="后退">‹</button>
+          <button class="forward" type="button" title="前进">›</button>
+          <button class="reload" type="button" title="刷新">↻</button>
+          <input class="url-input" type="text" value="https://mail.google.com/" aria-label="屏幕 2 网址" />
+          <button type="submit">进入</button>
+          <button class="external" type="button">外部打开</button>
+        </form>
+        <webview partition="persist:screen-2" src="https://mail.google.com/"></webview>
+      </section>
+
+      <section class="pane" data-pane="3">
+        <form class="toolbar">
+          <strong>屏幕 3</strong>
+          <button class="back" type="button" title="后退">‹</button>
+          <button class="forward" type="button" title="前进">›</button>
+          <button class="reload" type="button" title="刷新">↻</button>
+          <input class="url-input" type="text" value="https://chatgpt.com/" aria-label="屏幕 3 网址" />
+          <button type="submit">进入</button>
+          <button class="external" type="button">外部打开</button>
+        </form>
+        <webview partition="persist:screen-3" src="https://chatgpt.com/"></webview>
+      </section>
+
+      <section class="pane" data-pane="4">
+        <form class="toolbar">
+          <strong>屏幕 4</strong>
+          <button class="back" type="button" title="后退">‹</button>
+          <button class="forward" type="button" title="前进">›</button>
+          <button class="reload" type="button" title="刷新">↻</button>
+          <input class="url-input" type="text" value="https://gemini.google.com/" aria-label="屏幕 4 网址" />
+          <button type="submit">进入</button>
+          <button class="external" type="button">外部打开</button>
+        </form>
+        <webview partition="persist:screen-4" src="https://gemini.google.com/"></webview>
+      </section>
+    </main>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>
