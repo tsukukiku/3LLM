@@ -104,7 +104,7 @@ async function askAll() {
 
 function clearAll() {
   questionEl.value = "";
-  statusEl.textContent = "等待提问";
+  statusEl.textContent = "";
   for (const key of Object.keys(panels)) {
     panels[key].textContent = key === "gpt"
       ? "提交问题后，这里会显示 ChatGPT 的纯文本回答。文字较多时可上下滚动查看。"
@@ -112,7 +112,7 @@ function clearAll() {
         ? "提交问题后，这里会显示 Gemini 的纯文本回答。文字较多时可上下滚动查看。"
         : "提交问题后，这里会显示 Grok 的纯文本回答。文字较多时可上下滚动查看。";
     panels[key].className = "answer muted";
-    setState(key, "等待提问");
+    setState(key, "");
   }
   updateCount();
 }
