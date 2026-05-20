@@ -27,6 +27,14 @@ function setState(key, text, isError = false) {
   states[key].className = isError ? "error" : "";
 }
 
+function shortClientError(message) {
+  const text = String(message || "请求失败");
+  if (text.includes("429") || text.includes("配额") || text.includes("quota")) {
+    return "API 配额已用完，或请求太频繁。请稍后再试，或检查该 API key 的额度。";
+  }
+  return text.length > 300 ? `${text.slice(0, 300)}...` : text;
+}
+
 function updateCount() {
   countEl.textContent = `${questionEl.value.length} / ${MAX_QUESTION_CHARS} 字`;
 }
@@ -56,7 +64,7 @@ function renderResult(data) {
       panels[key].className = "answer";
       setState(key, "完成");
     } else {
-      panels[key].textContent = item.error || "请求失败";
+      panels[key].textContent = shortClientError(item.error);
       panels[key].className = "answer error";
       setState(key, "失败", true);
     }
