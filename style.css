@@ -146,14 +146,47 @@ h1 {
 }
 
 .section-title {
-  font-size: 15px;
+  font-size: 17px;
 }
 
 .section-title em {
   font-style: normal;
   color: var(--muted-2);
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 800;
+}
+
+.model-picks {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.model-picks label {
+  height: 25px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 6px;
+  border: 1px solid rgba(50, 70, 80, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.66);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.model-picks img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.model-picks input {
+  width: 13px;
+  height: 13px;
+  accent-color: var(--teal);
 }
 
 .icon-badge {
@@ -217,15 +250,24 @@ textarea:focus {
 .actions {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   margin-top: 6px;
+  flex-wrap: nowrap;
+}
+
+.action-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
 }
 
 .passcode {
-  width: 82px;
+  width: 58px;
   height: 28px;
   border: 1px solid rgba(50, 70, 80, 0.13);
-  border-radius: 10px;
+  border-radius: 0;
   outline: none;
   padding: 0 10px;
   background: rgba(255, 255, 255, 0.72);
@@ -243,9 +285,10 @@ button {
   height: 28px;
   border: 0;
   border-radius: 10px;
-  padding: 0 13px;
+  padding: 0 8px;
   color: white;
   font: 850 13px/1 var(--font);
+  white-space: nowrap;
   cursor: pointer;
   transition: transform 0.16s ease, background 0.16s ease, opacity 0.16s ease;
 }
@@ -260,20 +303,20 @@ button:disabled {
 }
 
 .primary {
-  width: 112px;
+  width: 82px;
   background: linear-gradient(135deg, var(--teal), #08b39d);
   box-shadow: 0 10px 20px rgba(15, 159, 142, 0.18);
 }
 
 .secondary {
-  width: 82px;
+  width: 48px;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(50, 70, 80, 0.13);
   color: #314151;
 }
 
 .export {
-  width: 104px;
+  width: 72px;
   background: var(--slate);
 }
 
@@ -281,6 +324,7 @@ button:disabled {
   margin-top: 6px;
   color: var(--muted-2);
   font-size: 13px;
+  text-align: right;
 }
 
 .response-card {
@@ -373,6 +417,16 @@ button:disabled {
   }
 
   .actions {
+    gap: 5px;
+  }
+
+  .action-left {
+    gap: 5px;
+  }
+
+  .model-picks {
+    width: 100%;
+    margin-left: 34px;
     flex-wrap: wrap;
   }
 }

@@ -19,7 +19,7 @@
               <h1>一问三知</h1>
               <strong>三AI行，必有我师</strong>
             </div>
-            <p>同时向三大 AI 提问，比较不同模型的回答，取长补短，启发思考。</p>
+            <p>向三大 AI 提问，取长补短，启发思考。</p>
           </div>
         </header>
 
@@ -28,9 +28,24 @@
             <div class="card-inner">
               <div class="section-head">
                 <div class="section-title">
-                  <span class="icon-badge">?</span>
-                  <span>提出你的问题</span>
-                  <em>每IP每天5问</em>
+                  <em>每IP每日5问</em>
+                </div>
+                <div class="model-picks" aria-label="选择模型">
+                  <label>
+                    <img src="./assets/chatgpt-32.png" alt="" />
+                    <span>ChatGPT</span>
+                    <input type="checkbox" name="model" value="gpt" checked />
+                  </label>
+                  <label>
+                    <img src="./assets/grok-32.png" alt="" />
+                    <span>Grok</span>
+                    <input type="checkbox" name="model" value="grok" />
+                  </label>
+                  <label>
+                    <img src="./assets/gemini-32.png" alt="" />
+                    <span>Gemini</span>
+                    <input type="checkbox" name="model" value="gemini" />
+                  </label>
                 </div>
                 <span id="status"></span>
               </div>
@@ -39,12 +54,14 @@
                 <span class="count" id="count">0 / 200 字</span>
               </div>
               <div class="actions">
-                <input id="passcode" class="passcode" type="password" placeholder="口令" autocomplete="off" />
-                <button id="askBtn" class="primary" type="button">✦ 提交问题</button>
-                <button id="clearBtn" class="secondary" type="button">清空</button>
-                <button id="exportBtn" class="export" type="button">下载 TXT</button>
+                <div class="action-left">
+                  <input id="passcode" class="passcode" type="password" placeholder="口令" autocomplete="off" />
+                  <button id="askBtn" class="primary" type="button">✦ 提交问题</button>
+                  <button id="clearBtn" class="secondary" type="button">清空</button>
+                </div>
+                <button id="exportBtn" class="export" type="button">下载TXT</button>
               </div>
-              <p class="helper">将问题与三位 AI 的回答整合在一起，支持 TXT 格式下载。</p>
+              <p class="helper">问题与回答，整合后下载TXT。</p>
             </div>
           </article>
 
@@ -57,7 +74,7 @@
                 </div>
                 <span id="gptState"></span>
               </div>
-              <div id="gpt" class="answer muted">提交问题后，这里会显示 ChatGPT 的纯文本回答。文字较多时可上下滚动查看。</div>
+              <div id="gpt" class="answer muted">这里会显示 ChatGPT 的纯文本回答</div>
             </div>
           </article>
 
@@ -70,7 +87,7 @@
                 </div>
                 <span id="grokState"></span>
               </div>
-              <div id="grok" class="answer muted">提交问题后，这里会显示 Grok 的纯文本回答。文字较多时可上下滚动查看。</div>
+              <div id="grok" class="answer muted">这里会显示 Grok 的纯文本回答</div>
             </div>
           </article>
 
@@ -83,7 +100,7 @@
                 </div>
                 <span id="geminiState"></span>
               </div>
-              <div id="gemini" class="answer muted">提交问题后，这里会显示 Gemini 的纯文本回答。文字较多时可上下滚动查看。</div>
+              <div id="gemini" class="answer muted">这里会显示 Gemini 的纯文本回答</div>
             </div>
           </article>
         </section>

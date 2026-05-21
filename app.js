@@ -22,6 +22,11 @@ const API_BASE_URL = ["star-style-studio.net", "www.star-style-studio.net"].incl
   ? "https://api.star-style-studio.net"
   : "";
 const MAX_QUESTION_CHARS = 200;
+const placeholderText = {
+  gpt: "这里会显示 ChatGPT 的纯文本回答",
+  gemini: "这里会显示 Gemini 的纯文本回答",
+  grok: "这里会显示 Grok 的纯文本回答"
+};
 
 function getAskMode() {
   const code = passcodeEl.value.trim();
@@ -32,6 +37,10 @@ function getAskMode() {
     return "high";
   }
   return "";
+}
+
+function getSelectedModels() {
+  return [...document.querySelectorAll('input[name="model"]:checked')].map((item) => item.value);
 }
 
 function setState(key, text, isError = false) {
@@ -52,17 +61,31 @@ function updateCount() {
 }
 
 function setLoading() {
+  const selected = new Set(getSelectedModels());
   statusEl.textContent = getAskMode() === "high" ? "高阶请求中" : "请求中";
   for (const key of Object.keys(panels)) {
-    panels[key].textContent = "思考中...";
-    panels[key].className = "answer muted";
-    setState(key, "请求中");
+    if (selected.has(key)) {
+      panels[key].textContent = "思考中...";
+      panels[key].className = "answer muted";
+      setState(key, "请求中");
+    } else {
+      panels[key].textContent = "未选择";
+      panels[key].className = "answer muted";
+      setState(key, "");
+    }
   }
 }
 
 function renderResult(data) {
+  const selected = new Set(data?.models || getSelectedModels());
   statusEl.textContent = "完成";
   for (const key of Object.keys(panels)) {
+    if (!selected.has(key)) {
+      panels[key].textContent = "未选择";
+      panels[key].className = "answer muted";
+      setState(key, "");
+      continue;
+    }
     const item = data?.result?.[key];
     if (!item) {
       panels[key].textContent = "无返回";
@@ -86,6 +109,7 @@ function renderResult(data) {
 async function askAll() {
   const question = questionEl.value.trim();
   const mode = getAskMode();
+  const models = getSelectedModels();
   if (!question) {
     alert("请先输入问题");
     questionEl.focus();
@@ -94,6 +118,10 @@ async function askAll() {
   if (!mode) {
     alert("请输入正确口令：ASK3 或 ASK5.3");
     passcodeEl.focus();
+    return;
+  }
+  if (models.length === 0) {
+    alert("请至少选择一个模型");
     return;
   }
   if (question.length > MAX_QUESTION_CHARS) {
@@ -109,7 +137,7 @@ async function askAll() {
     const resp = await fetch(`${API_BASE_URL}/api/ask`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question, mode })
+      body: JSON.stringify({ question, mode, models })
     });
     const data = await resp.json();
     if (!resp.ok) {
@@ -133,11 +161,7 @@ function clearAll() {
   passcodeEl.value = "";
   statusEl.textContent = "";
   for (const key of Object.keys(panels)) {
-    panels[key].textContent = key === "gpt"
-      ? "提交问题后，这里会显示 ChatGPT 的纯文本回答。文字较多时可上下滚动查看。"
-      : key === "gemini"
-        ? "提交问题后，这里会显示 Gemini 的纯文本回答。文字较多时可上下滚动查看。"
-        : "提交问题后，这里会显示 Grok 的纯文本回答。文字较多时可上下滚动查看。";
+    panels[key].textContent = placeholderText[key];
     panels[key].className = "answer muted";
     setState(key, "");
   }
