@@ -37,14 +37,14 @@ body {
   margin: 13px auto;
   overflow: hidden;
   border: 1px solid rgba(65, 95, 105, 0.1);
-  border-radius: 26px;
+  border-radius: 20px;
   background: rgba(255, 255, 255, 0.54);
   box-shadow: var(--shadow);
   backdrop-filter: blur(22px);
 }
 
 .app {
-  padding: 26px 22px 22px;
+  padding: 18px 16px 16px;
 }
 
 .hero {
@@ -52,7 +52,7 @@ body {
   grid-template-columns: auto 1fr auto;
   gap: 14px;
   align-items: center;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 
 .site-logo {
@@ -102,13 +102,13 @@ h1 {
 
 .stack {
   display: grid;
-  gap: 16px;
+  gap: 10px;
 }
 
 .card {
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 22px;
+  border-radius: 16px;
   background: var(--card);
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(20px);
@@ -120,12 +120,12 @@ h1 {
 }
 
 .question-card {
-  padding: 12px 18px;
+  padding: 8px 12px;
 }
 
 .section-head,
 .model-head {
-  min-height: 28px;
+  min-height: 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -133,7 +133,7 @@ h1 {
 }
 
 .section-head {
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .section-title,
@@ -147,7 +147,7 @@ h1 {
 }
 
 .section-title {
-  font-size: 17px;
+  font-size: 12px;
 }
 
 .section-title em {
@@ -161,13 +161,13 @@ h1 {
 .model-picks {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 6px;
   margin-left: auto;
   flex: 0 0 auto;
 }
 
 .model-picks label {
-  height: 25px;
+  height: 22px;
   display: flex;
   align-items: center;
   gap: 2px;
@@ -182,14 +182,14 @@ h1 {
 }
 
 .model-picks img {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   object-fit: contain;
 }
 
 .model-picks input {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   accent-color: var(--teal);
 }
 
@@ -218,12 +218,12 @@ h1 {
 
 textarea {
   width: 100%;
-  min-height: 142px;
+  min-height: 104px;
   resize: vertical;
   border: 1px solid rgba(51, 86, 96, 0.16);
-  border-radius: 18px;
+  border-radius: 14px;
   outline: none;
-  padding: 18px;
+  padding: 12px 14px;
   background: rgba(255, 255, 255, 0.86);
   color: var(--text);
   font: 14px/1.72 var(--font);
@@ -242,8 +242,8 @@ textarea:focus {
 
 .count {
   position: absolute;
-  right: 15px;
-  bottom: 11px;
+  right: 11px;
+  bottom: 7px;
   padding: 2px 7px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.78);
@@ -256,7 +256,7 @@ textarea:focus {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 6px;
+  margin-top: 5px;
   flex-wrap: nowrap;
 }
 
@@ -325,14 +325,14 @@ button:disabled {
 }
 
 .helper {
-  margin-top: 6px;
+  margin-top: 4px;
   color: var(--muted-2);
   font-size: 13px;
   text-align: right;
 }
 
 .response-card {
-  min-height: 220px;
+  min-height: 178px;
 }
 
 .model-head {
@@ -357,10 +357,10 @@ button:disabled {
 .gemini-card .model-title h2 { color: #5277e8; }
 
 .answer {
-  min-height: 160px;
+  min-height: 118px;
   max-height: 360px;
   overflow: auto;
-  padding: 17px 19px;
+  padding: 12px 14px;
   background: rgba(255, 255, 255, 0.62);
   white-space: pre-wrap;
   color: #253242;
@@ -400,7 +400,7 @@ button:disabled {
   }
 
   .app {
-    padding: 16px;
+    padding: 10px;
   }
 
   .hero {
@@ -417,7 +417,7 @@ button:disabled {
   }
 
   .question-card {
-    padding: 10px 12px;
+    padding: 8px 9px;
   }
 
   .actions {
