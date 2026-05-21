@@ -7,13 +7,13 @@
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/site-icon-32.png?v=metal" />
     <link rel="icon" type="image/png" sizes="192x192" href="./assets/site-icon-192.png?v=metal" />
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=metal" />
-    <link rel="stylesheet" href="./style.css?v=20260521-passcode" />
+    <link rel="stylesheet" href="./style.css?v=highend-20260521" />
   </head>
   <body>
     <main class="browser">
-      <section class="app">
-        <header class="hero">
-          <img class="site-logo" src="./assets/site-icon-64.png?v=metal" alt="一问三知" />
+      <section class="hero panel">
+        <div class="hero-row">
+          <img class="site-logo" src="./assets/site-icon-192.png?v=metal" alt="一问三知" />
           <div class="hero-copy">
             <div class="hero-title-line">
               <h1>一问三知</h1>
@@ -21,88 +21,106 @@
             </div>
             <p>向三大 AI 提问，取长补短，启发思考。</p>
           </div>
-        </header>
+          <span class="hero-spark" aria-hidden="true">✦</span>
+        </div>
+        <span class="hero-underline" aria-hidden="true"></span>
+      </section>
 
-        <section class="stack">
-          <article class="card question-card">
-            <div class="card-inner">
-              <div class="section-head">
-                <div class="section-title">
-                  <em>每IP每日5问</em>
-                </div>
-                <div class="model-picks" aria-label="选择模型">
-                  <label>
-                    <img src="./assets/chatgpt-32.png" alt="" />
-                    <input type="checkbox" name="model" value="gpt" checked />
-                  </label>
-                  <label>
-                    <img src="./assets/grok-32.png" alt="" />
-                    <input type="checkbox" name="model" value="grok" />
-                  </label>
-                  <label>
-                    <img src="./assets/gemini-32.png" alt="" />
-                    <input type="checkbox" name="model" value="gemini" />
-                  </label>
-                </div>
-                <span id="status"></span>
-              </div>
-              <div class="textarea-wrap">
-                <textarea id="question" maxlength="200" placeholder="输入你的问题..."></textarea>
-                <span class="count" id="count">0 / 200 字</span>
-              </div>
-              <div class="actions">
-                <div class="action-left">
-                  <input id="passcode" class="passcode" type="password" placeholder="口令" autocomplete="off" />
-                  <button id="askBtn" class="primary" type="button">✦ 提交问题</button>
-                  <button id="clearBtn" class="secondary" type="button">清空</button>
-                </div>
-                <button id="exportBtn" class="export" type="button">下载TXT</button>
-              </div>
+      <section class="card question-card panel">
+        <div class="section-head">
+          <div class="quota">◇ 每IP每日5问</div>
+          <div class="model-picks" aria-label="选择模型">
+            <label title="ChatGPT">
+              <img src="./assets/ai-chatgpt-icon-128.png" alt="ChatGPT" />
+              <input type="checkbox" name="model" value="gpt" checked />
+              <span></span>
+            </label>
+            <label title="Grok">
+              <img src="./assets/ai-grok-icon-128.png" alt="Grok" />
+              <input type="checkbox" name="model" value="grok" />
+              <span></span>
+            </label>
+            <label title="Gemini">
+              <img src="./assets/ai-gemini-icon-128.png" alt="Gemini" />
+              <input type="checkbox" name="model" value="gemini" />
+              <span></span>
+            </label>
+          </div>
+          <span id="status" class="status"></span>
+        </div>
+
+        <div class="textarea-wrap">
+          <textarea id="question" maxlength="200" placeholder="输入你的问题..."></textarea>
+          <span class="count" id="count">0 / 200 字</span>
+        </div>
+
+        <div class="actions">
+          <div class="action-left">
+            <input id="passcode" class="passcode" type="password" placeholder="口令" autocomplete="off" />
+            <button id="askBtn" class="primary" type="button">✦ 提交问题</button>
+            <button id="clearBtn" class="secondary" type="button">清空</button>
+          </div>
+          <button id="exportBtn" class="export" type="button">下载TXT</button>
+        </div>
+      </section>
+
+      <section class="answers">
+        <article class="card response-card chatgpt-card panel">
+          <img class="watermark" src="./assets/wm-chatgpt.png?v=clean3" alt="" aria-hidden="true" />
+          <div class="model-head">
+            <div class="model-avatar">
+              <img src="./assets/ai-chatgpt-icon.png" alt="" />
             </div>
-          </article>
-
-          <article class="card response-card chatgpt-card">
-            <div class="card-inner">
-              <div class="model-head">
-                <div class="model-title">
-                  <img src="./assets/chatgpt-32.png" alt="" />
-                  <h2>ChatGPT</h2>
-                </div>
+            <div class="model-copy">
+              <div class="model-title">
+                <h2>ChatGPT</h2>
                 <span id="gptState"></span>
               </div>
-              <div id="gpt" class="answer muted">这里会显示 ChatGPT 的纯文本回答</div>
+              <p>智能 · 深度 · 全面</p>
             </div>
-          </article>
+            <img class="model-action" src="./assets/action-chatgpt-bubble.png" alt="" aria-hidden="true" />
+          </div>
+          <div id="gpt" class="answer muted">这里会显示 ChatGPT 的纯文本回答</div>
+        </article>
 
-          <article class="card response-card grok-card">
-            <div class="card-inner">
-              <div class="model-head">
-                <div class="model-title">
-                  <img src="./assets/grok-32.png" alt="" />
-                  <h2>Grok</h2>
-                </div>
+        <article class="card response-card grok-card panel">
+          <img class="watermark" src="./assets/wm-grok.png?v=clean3" alt="" aria-hidden="true" />
+          <div class="model-head">
+            <div class="model-avatar">
+              <img src="./assets/ai-grok-icon.png" alt="" />
+            </div>
+            <div class="model-copy">
+              <div class="model-title">
+                <h2>Grok</h2>
                 <span id="grokState"></span>
               </div>
-              <div id="grok" class="answer muted">这里会显示 Grok 的纯文本回答</div>
+              <p>快速 · 犀利 · 实用</p>
             </div>
-          </article>
+            <img class="model-action" src="./assets/action-grok-lightning.png" alt="" aria-hidden="true" />
+          </div>
+          <div id="grok" class="answer muted">这里会显示 Grok 的纯文本回答</div>
+        </article>
 
-          <article class="card response-card gemini-card">
-            <div class="card-inner">
-              <div class="model-head">
-                <div class="model-title">
-                  <img src="./assets/gemini-32.png" alt="" />
-                  <h2>Gemini</h2>
-                </div>
+        <article class="card response-card gemini-card panel">
+          <img class="watermark" src="./assets/wm-gemini.png?v=clean3" alt="" aria-hidden="true" />
+          <div class="model-head">
+            <div class="model-avatar">
+              <img src="./assets/ai-gemini-icon.png" alt="" />
+            </div>
+            <div class="model-copy">
+              <div class="model-title">
+                <h2>Gemini</h2>
                 <span id="geminiState"></span>
               </div>
-              <div id="gemini" class="answer muted">这里会显示 Gemini 的纯文本回答</div>
+              <p>创意 · 多元 · 前瞻</p>
             </div>
-          </article>
-        </section>
+            <img class="model-action" src="./assets/action-gemini-bulb.png" alt="" aria-hidden="true" />
+          </div>
+          <div id="gemini" class="answer muted">这里会显示 Gemini 的纯文本回答</div>
+        </article>
       </section>
     </main>
 
-    <script src="./app.js?v=20260521-passcode"></script>
+    <script src="./app.js?v=highend-20260521"></script>
   </body>
 </html>
