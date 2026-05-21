@@ -116,7 +116,7 @@ async function askAll() {
     return;
   }
   if (!mode) {
-    alert("请输入正确口令：ASK3 或 ASK5.3");
+    alert("请输入正确口令：ASKXX ");
     passcodeEl.focus();
     return;
   }
