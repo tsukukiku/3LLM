@@ -140,9 +140,10 @@ h1 {
 .model-title {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 6px;
   min-width: 0;
   font-weight: 850;
+  flex: 0 0 auto;
 }
 
 .section-title {
@@ -154,38 +155,41 @@ h1 {
   color: var(--muted-2);
   font-size: 12px;
   font-weight: 800;
+  white-space: nowrap;
 }
 
 .model-picks {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 9px;
   margin-left: auto;
+  flex: 0 0 auto;
 }
 
 .model-picks label {
   height: 25px;
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 0 6px;
-  border: 1px solid rgba(50, 70, 80, 0.12);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.66);
+  gap: 2px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--muted);
   font-size: 11px;
   font-weight: 850;
+  white-space: nowrap;
 }
 
 .model-picks img {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   object-fit: contain;
 }
 
 .model-picks input {
-  width: 13px;
-  height: 13px;
+  width: 12px;
+  height: 12px;
   accent-color: var(--teal);
 }
 
@@ -264,7 +268,7 @@ textarea:focus {
 }
 
 .passcode {
-  width: 58px;
+  width: 52px;
   height: 28px;
   border: 1px solid rgba(50, 70, 80, 0.13);
   border-radius: 0;
@@ -303,20 +307,20 @@ button:disabled {
 }
 
 .primary {
-  width: 82px;
+  width: 76px;
   background: linear-gradient(135deg, var(--teal), #08b39d);
   box-shadow: 0 10px 20px rgba(15, 159, 142, 0.18);
 }
 
 .secondary {
-  width: 48px;
+  width: 42px;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(50, 70, 80, 0.13);
   color: #314151;
 }
 
 .export {
-  width: 72px;
+  width: 68px;
   background: var(--slate);
 }
 
@@ -425,8 +429,9 @@ button:disabled {
   }
 
   .model-picks {
-    width: 100%;
-    margin-left: 34px;
-    flex-wrap: wrap;
+    width: auto;
+    margin-left: auto;
+    flex-wrap: nowrap;
+    gap: 7px;
   }
 }
