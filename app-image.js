@@ -16,13 +16,16 @@ const panels = {
   gemini: document.getElementById("gemini"),
   grok: document.getElementById("grok")
 };
+
 const states = {
   gpt: document.getElementById("gptState"),
   gemini: document.getElementById("geminiState"),
   grok: document.getElementById("grokState")
 };
 
-const API_BASE_URL = ["star-style-studio.net", "www.star-style-studio.net"].includes(location.hostname) ? "https://api.star-style-studio.net" : "";
+const API_BASE_URL = ["star-style-studio.net", "www.star-style-studio.net"].includes(location.hostname)
+  ? "https://api.star-style-studio.net"
+  : "";
 const MAX_QUESTION_CHARS = 200;
 const MAX_ORIGINAL_IMAGE_BYTES = 5 * 1024 * 1024;
 const MAX_SEND_IMAGE_BYTES = 2 * 1024 * 1024;
@@ -36,12 +39,16 @@ let preparedImage = null;
 function getAskMode() {
   const selected = document.querySelector('input[name="mode"]:checked')?.value || "normal";
   const code = passcodeEl.value.trim();
-  if (selected === "high") return code === "ASK5.3" ? "high" : "";
+  if (selected === "high") {
+    return code === "ASK5.3" ? "high" : "";
+  }
   return code === "ASK3" ? "normal" : "";
 }
 
 function getSelectedModels() {
-  return Array.from(document.querySelectorAll('input[name="model"]:checked')).map(function (item) { return item.value; });
+  return Array.from(document.querySelectorAll('input[name="model"]:checked')).map(function (item) {
+    return item.value;
+  });
 }
 
 function setState(key, text, isError) {
@@ -93,7 +100,9 @@ function loadImage(dataUrl) {
 }
 
 async function compressImage(file) {
-  if (file.size > MAX_ORIGINAL_IMAGE_BYTES) throw new Error("原图不能超过 5MB");
+  if (file.size > MAX_ORIGINAL_IMAGE_BYTES) {
+    throw new Error("原图不能超过 5MB");
+  }
   const sourceUrl = await readFileAsDataUrl(file);
   const sourceBytes = dataUrlBytes(sourceUrl);
   if (sourceBytes <= MAX_SEND_IMAGE_BYTES && ["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
@@ -125,7 +134,9 @@ async function compressImage(file) {
     dataUrl = canvas.toDataURL("image/jpeg", 0.72);
   }
 
-  if (dataUrlBytes(dataUrl) > MAX_SEND_IMAGE_BYTES) throw new Error("图片压缩后仍超过 2MB，请换一张较小的图片");
+  if (dataUrlBytes(dataUrl) > MAX_SEND_IMAGE_BYTES) {
+    throw new Error("图片压缩后仍超过 2MB，请换一张较小的图片");
+  }
   return { mime: "image/jpeg", data: dataUrl.split(",")[1], preview: dataUrl, bytes: dataUrlBytes(dataUrl) };
 }
 
@@ -157,7 +168,9 @@ function removeImage() {
 
 function shortClientError(message) {
   const text = String(message || "请求失败");
-  if (text.includes("429") || text.includes("quota")) return "API 配额已用完，或请求太频繁。请稍后再试，或检查 API key 的额度。";
+  if (text.includes("429") || text.includes("quota")) {
+    return "API 配额已用完，或请求太频繁。请稍后再试，或检查 API key 的额度。";
+  }
   return text.length > 500 ? text.slice(0, 500) + "..." : text;
 }
 
@@ -177,6 +190,18 @@ function setLoading() {
   });
 }
 
+function renderOneResult(key, item) {
+  if (item.ok) {
+    panels[key].textContent = item.text || "(无文本)";
+    panels[key].className = "answer";
+    setState(key, "完成", false);
+  } else {
+    panels[key].textContent = shortClientError(item.error);
+    panels[key].className = "answer error";
+    setState(key, "失败", true);
+  }
+}
+
 function renderResult(data) {
   const selected = new Set(data && data.models ? data.models : getSelectedModels());
   statusEl.textContent = "完成";
@@ -189,21 +214,41 @@ function renderResult(data) {
     }
     const item = data && data.result && data.result[key];
     if (!item) {
-      panels[key].textContent = "无返回";
-      panels[key].className = "answer error";
-      setState(key, "无返回", true);
+      renderOneResult(key, { ok: false, error: "无返回" });
       return;
     }
-    if (item.ok) {
-      panels[key].textContent = item.text || "(无文本)";
-      panels[key].className = "answer";
-      setState(key, "完成", false);
-    } else {
-      panels[key].textContent = shortClientError(item.error);
-      panels[key].className = "answer error";
-      setState(key, "失败", true);
-    }
+    renderOneResult(key, item);
   });
+}
+
+async function readStreamResults(resp) {
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let completed = 0;
+  const total = getSelectedModels().length;
+
+  while (true) {
+    const chunk = await reader.read();
+    if (chunk.done) break;
+    buffer += decoder.decode(chunk.value, { stream: true });
+    const events = buffer.split("\n\n");
+    buffer = events.pop() || "";
+
+    for (const eventText of events) {
+      const line = eventText.split("\n").find(function (item) { return item.startsWith("data: "); });
+      if (!line) continue;
+      const payload = JSON.parse(line.slice(6));
+      if (payload.type === "result") {
+        completed += 1;
+        renderOneResult(payload.key, payload.item);
+        statusEl.textContent = "已完成 " + completed + " / " + total;
+      }
+      if (payload.type === "done") {
+        statusEl.textContent = "完成";
+      }
+    }
+  }
 }
 
 async function askAll() {
@@ -218,14 +263,21 @@ async function askAll() {
   askBtn.disabled = true;
   setLoading();
   try {
-    const resp = await fetch(API_BASE_URL + "/api/ask", {
+    const resp = await fetch(API_BASE_URL + "/api/ask-stream", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question: question, mode: mode, models: models, image: preparedImage ? { mime: preparedImage.mime, data: preparedImage.data } : null })
     });
-    const data = await resp.json();
-    if (!resp.ok) throw new Error((data && data.error) || "请求失败");
-    renderResult(data);
+    if (!resp.ok) {
+      const data = await resp.json().catch(function () { return null; });
+      throw new Error((data && data.error) || "请求失败");
+    }
+    if (resp.body) {
+      await readStreamResults(resp);
+    } else {
+      const data = await resp.json();
+      renderResult(data);
+    }
   } catch (error) {
     statusEl.textContent = "失败";
     Object.keys(panels).forEach(function (key) {
