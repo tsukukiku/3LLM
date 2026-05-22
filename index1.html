@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>一问三知 图片版</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/site-icon-32.png?v=metal" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./assets/site-icon-192.png?v=metal" />
+    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=metal" />
+    <link rel="stylesheet" href="./style.css?v=highend-20260523" />
+    <link rel="stylesheet" href="./style-image.css?v=warm-20260523" />
+  </head>
+  <body class="warm-image-page">
+    <main class="browser">
+      <section class="hero panel">
+        <div class="hero-row">
+          <img class="site-logo" src="./assets/site-icon-192.png?v=metal" alt="一问三知" />
+          <div class="hero-copy">
+            <div class="hero-title-line">
+              <h1>一问三知</h1>
+              <strong>三家解图</strong>
+            </div>
+            <p>同时向三大 AI 提问，比较答案，取长补短。</p>
+          </div>
+          <a class="back-home" href="https://star-style-studio.net/" aria-label="返回 star-style-studio.net">返回</a>
+          <span class="hero-spark" aria-hidden="true">✦</span>
+        </div>
+        <span class="hero-underline" aria-hidden="true"></span>
+      </section>
+
+      <section class="card question-card panel image-question-card">
+        <div class="section-head">
+          <div class="quota">◇ 每日5问 · 图片小于5MB</div>
+          <div class="mode-picks" aria-label="选择模式">
+            <label><input type="radio" name="mode" value="normal" checked /> 普通</label>
+            <label><input type="radio" name="mode" value="high" /> 高阶</label>
+          </div>
+          <div class="model-picks" aria-label="选择模型">
+            <label title="ChatGPT">
+              <img src="./assets/ai-chatgpt-icon-128.png" alt="ChatGPT" />
+              <input type="checkbox" name="model" value="gpt" />
+              <span></span>
+            </label>
+            <label title="Grok">
+              <img src="./assets/ai-grok-icon-128.png" alt="Grok" />
+              <input type="checkbox" name="model" value="grok" />
+              <span></span>
+            </label>
+            <label title="Gemini">
+              <img src="./assets/ai-gemini-icon-128.png" alt="Gemini" />
+              <input type="checkbox" name="model" value="gemini" />
+              <span></span>
+            </label>
+          </div>
+          <span id="status" class="status"></span>
+        </div>
+
+        <div class="textarea-wrap">
+          <textarea id="question" maxlength="200" placeholder="输入提示词，每次在这里写清楚你希望 AI 如何看图、分析图或改写图中内容..."></textarea>
+          <span class="count" id="count">0 / 200 字</span>
+        </div>
+
+        <div class="image-tools">
+          <label class="image-picker">
+            <input id="imageInput" type="file" accept="image/jpeg,image/png,image/webp" />
+            <span>＋ 添加图片</span>
+          </label>
+          <button id="removeImageBtn" class="secondary tiny" type="button">移除图片</button>
+          <span id="imageStatus" class="image-status">未选择图片</span>
+        </div>
+        <div id="imagePreview" class="image-preview" hidden>
+          <img id="previewImg" alt="图片预览" />
+        </div>
+
+        <div class="actions">
+          <div class="action-left">
+            <input id="passcode" class="passcode" type="password" placeholder="口令" autocomplete="off" />
+            <button id="askBtn" class="primary" type="button">✦ 提交问题</button>
+            <button id="clearBtn" class="secondary" type="button">清空</button>
+          </div>
+          <button id="exportBtn" class="export" type="button">下载TXT</button>
+        </div>
+      </section>
+
+      <section class="answers">
+        <article class="card response-card chatgpt-card panel">
+          <img class="watermark" src="./assets/wm-chatgpt.png?v=clean3" alt="" aria-hidden="true" />
+          <div class="model-head">
+            <div class="model-avatar"><img src="./assets/ai-chatgpt-icon.png" alt="" /></div>
+            <div class="model-copy"><div class="model-title"><h2>ChatGPT</h2><span id="gptState"></span></div><p>智能 · 深度 · 全面</p></div>
+            <img class="model-action" src="./assets/action-chatgpt-bubble.png" alt="" aria-hidden="true" />
+          </div>
+          <div id="gpt" class="answer muted">这里会显示 ChatGPT 的图文回答</div>
+        </article>
+
+        <article class="card response-card grok-card panel">
+          <img class="watermark" src="./assets/wm-grok.png?v=clean3" alt="" aria-hidden="true" />
+          <div class="model-head">
+            <div class="model-avatar"><img src="./assets/ai-grok-icon.png" alt="" /></div>
+            <div class="model-copy"><div class="model-title"><h2>Grok</h2><span id="grokState"></span></div><p>快速 · 犀利 · 实用</p></div>
+            <img class="model-action" src="./assets/action-grok-lightning.png?v=tight2" alt="" aria-hidden="true" />
+          </div>
+          <div id="grok" class="answer muted">这里会显示 Grok 的图文回答</div>
+        </article>
+
+        <article class="card response-card gemini-card panel">
+          <img class="watermark" src="./assets/wm-gemini.png?v=clean3" alt="" aria-hidden="true" />
+          <div class="model-head">
+            <div class="model-avatar"><img src="./assets/ai-gemini-icon.png" alt="" /></div>
+            <div class="model-copy"><div class="model-title"><h2>Gemini</h2><span id="geminiState"></span></div><p>创意 · 多元 · 前瞻</p></div>
+            <img class="model-action" src="./assets/action-gemini-bulb.png" alt="" aria-hidden="true" />
+          </div>
+          <div id="gemini" class="answer muted">这里会显示 Gemini 的图文回答</div>
+        </article>
+      </section>
+
+      <footer class="site-footer">
+        <a class="footer-link" href="https://www.star-style-studio.net/3LLM/about.html">关于</a>
+        <a class="footer-link" href="https://www.star-style-studio.net/3LLM/policy.html">政策</a>
+        <a class="footer-link" href="https://www.star-style-studio.net/3LLM/privacy.html">隐私</a>
+        <span>声明：AI生成内容，不代表本站观点，请谨慎甄别。</span>
+      </footer>
+    </main>
+    <script src="./app-image.js?v=warm-20260523"></script>
+  </body>
+</html>
