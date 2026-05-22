@@ -93,6 +93,32 @@ body::after {
   opacity: 0.34;
 }
 
+.back-home {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 58px;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(37, 136, 255, 0.14), 0 10px 24px rgba(37, 136, 255, 0.12);
+  color: rgba(18, 111, 255, 0.82);
+  font-size: clamp(12px, 1.5vw, 18px);
+  font-weight: 560;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.back-home:hover {
+  color: #0d52c8;
+  text-decoration: underline;
+}
+
 .panel {
   border: 1px solid rgba(255, 255, 255, 0.74);
   background: var(--glass);
@@ -206,6 +232,7 @@ h1 {
   justify-content: space-between;
   gap: 14px;
   margin-bottom: 7px;
+  flex-wrap: nowrap;
 }
 
 .quota {
@@ -219,9 +246,12 @@ h1 {
 .model-picks {
   gap: 14px;
   margin-left: auto;
+  flex: 0 0 auto;
+  align-items: center;
 }
 
 .model-picks label {
+  flex: 0 0 auto;
   height: 34px;
   min-width: 0;
   justify-content: center;
@@ -580,6 +610,25 @@ button:disabled {
   color: rgba(116, 131, 164, 0.58);
 }
 
+.site-footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+  padding: 0 10px;
+  color: rgba(101, 115, 144, 0.72);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.privacy-label {
+  color: rgba(18, 111, 255, 0.72);
+  text-transform: lowercase;
+}
+
 .error {
   color: var(--danger) !important;
 }
@@ -590,6 +639,13 @@ button:disabled {
     margin: 5px auto;
     padding: 12px;
     border-radius: 26px;
+  }
+
+  .back-home {
+    min-width: 40px;
+    height: 24px;
+    padding: 0 9px;
+    font-size: 11px;
   }
 
   .hero {
@@ -652,7 +708,7 @@ button:disabled {
   }
 
   .model-picks {
-    gap: 7px;
+    gap: 5px;
   }
 
   .model-picks label {
@@ -786,6 +842,13 @@ button:disabled {
     padding: 7px 12px;
     border-radius: 17px;
     font-size: 14px;
+  }
+
+  .site-footer {
+    margin-top: 4px;
+    padding: 0 4px;
+    gap: 8px;
+    font-size: 10px;
   }
 }
 
