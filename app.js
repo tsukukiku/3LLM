@@ -60,6 +60,18 @@ function updateCount() {
   countEl.textContent = `${questionEl.value.length} / ${MAX_QUESTION_CHARS} 字`;
 }
 
+function autoGrowQuestion() {
+  const maxHeight = window.matchMedia("(max-width: 720px)").matches ? 260 : 560;
+  questionEl.style.height = "auto";
+  questionEl.style.height = `${Math.min(questionEl.scrollHeight, maxHeight)}px`;
+  questionEl.style.overflowY = questionEl.scrollHeight > maxHeight ? "auto" : "hidden";
+}
+
+function updateQuestionBox() {
+  updateCount();
+  autoGrowQuestion();
+}
+
 function setLoading() {
   const selected = new Set(getSelectedModels());
   statusEl.textContent = getAskMode() === "high" ? "高阶请求中" : "请求中";
@@ -165,7 +177,7 @@ function clearAll() {
     panels[key].className = "answer muted";
     setState(key, "");
   }
-  updateCount();
+  updateQuestionBox();
 }
 
 function exportTxt() {
@@ -194,8 +206,12 @@ function exportTxt() {
   URL.revokeObjectURL(url);
 }
 
-questionEl.addEventListener("input", updateCount);
+questionEl.addEventListener("input", updateQuestionBox);
+window.addEventListener("orientationchange", () => {
+  setTimeout(autoGrowQuestion, 250);
+});
+window.addEventListener("resize", autoGrowQuestion);
 askBtn.addEventListener("click", askAll);
 clearBtn.addEventListener("click", clearAll);
 exportBtn.addEventListener("click", exportTxt);
-updateCount();
+updateQuestionBox();

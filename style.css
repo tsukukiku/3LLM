@@ -19,6 +19,11 @@
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   min-height: 100vh;
   margin: 0;
@@ -56,7 +61,7 @@ body::after {
 .browser {
   position: relative;
   z-index: 1;
-  width: min(1000px, calc(100vw - 12px));
+  width: min(calc(100vw - 24px), max(1000px, 75vw), 1420px);
   margin: 6px auto;
   padding: 30px clamp(22px, 4vw, 42px) 42px;
   border: 1px solid rgba(255, 255, 255, 0.72);
@@ -763,7 +768,7 @@ button:disabled {
     min-height: 96px;
     padding: 12px 14px 36px;
     border-radius: 20px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.6;
   }
 
