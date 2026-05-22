@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>隐私说明 | 一问三知</title>
+  <meta name="description" content="一问三知隐私说明：请求、日志、API Key、第三方模型和联系方式。" />
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #081935;
+      --muted: #667792;
+      --line: rgba(94, 135, 188, .18);
+      --blue: #2478ff;
+      --teal: #13bda8;
+      --card: rgba(255, 255, 255, .78);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(93, 213, 255, .28), transparent 28%),
+        radial-gradient(circle at 92% 12%, rgba(121, 94, 255, .18), transparent 30%),
+        linear-gradient(145deg, #eef9ff 0%, #f8fbff 46%, #eaf9f5 100%);
+    }
+    main { width: min(920px, calc(100% - 28px)); margin: 0 auto; padding: 34px 0 42px; }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--card);
+      box-shadow: 0 24px 70px rgba(31, 73, 128, .16);
+      backdrop-filter: blur(18px);
+      padding: clamp(22px, 4vw, 44px);
+    }
+    .topline { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 24px; }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .mark {
+      width: 54px; height: 54px; border-radius: 16px;
+      background: linear-gradient(135deg, #16d7ba, #267cff 55%, #8f55ff);
+      box-shadow: 0 14px 34px rgba(36, 120, 255, .24);
+      display: grid; place-items: center; color: white; font-weight: 900; font-size: 22px;
+    }
+    .brand-title { font-size: 1.35rem; font-weight: 800; letter-spacing: .02em; }
+    nav { display: flex; flex-wrap: wrap; gap: 10px; }
+    a { color: var(--blue); text-decoration: none; font-weight: 700; }
+    a:hover { text-decoration: underline; }
+    nav a, .home-link {
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .68);
+      color: #1e3f73;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    h1 { margin: 0 0 10px; font-size: clamp(2.1rem, 6vw, 4rem); line-height: 1.05; letter-spacing: -.05em; }
+    .lead { margin: 0 0 24px; color: #35506f; font-size: 1.05rem; line-height: 1.75; font-weight: 650; }
+    h2 { margin: 28px 0 10px; font-size: 1.25rem; color: #0b927f; }
+    p, li { color: var(--muted); line-height: 1.86; font-size: 1rem; }
+    ul { padding-left: 1.25rem; }
+    .note {
+      margin-top: 28px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(236, 249, 255, .75);
+      border: 1px solid var(--line);
+      color: #526985;
+    }
+    footer { margin-top: 26px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; color: var(--muted); font-size: .95rem; }
+    @media (max-width: 680px) {
+      main { width: min(100% - 18px, 920px); padding: 18px 0 28px; }
+      .topline { align-items: flex-start; flex-direction: column; }
+      .brand-title { font-size: 1.1rem; }
+      nav a, .home-link { padding: 7px 11px; }
+    }
+
+  </style>
+</head>
+<body>
+  <main>
+    <section class="panel">
+
+      <div class="topline">
+        <div class="brand">
+          <div class="mark">三</div>
+          <div>
+            <div class="brand-title">一问三知</div>
+            <div style="color:#6b7d96;font-size:.92rem;line-height:1.5">三AI行，必有我师</div>
+          </div>
+        </div>
+        <nav aria-label="页面导航">
+          <a href="https://www.star-style-studio.net/cn/about/index.html">关于</a>
+          <a href="https://www.star-style-studio.net/cn/policy.html">政策</a>
+          <a href="https://www.star-style-studio.net/cn/privacy.html">隐私</a>
+          <a class="home-link" href="https://star-style-studio.net/">返回 星运占台</a>
+        </nav>
+      </div>
+
+      <h1>隐私说明</h1>
+      <p class="lead">一问三知尽量只处理完成问答所需的信息。API Key 存放在服务器端，不会放入前端网页。</p>
+
+      <h2>提交的问题</h2>
+      <p>当你提交问题时，问题文本会发送到本站后端，并根据你选择的模型转交给对应的第三方 AI 服务，以生成回答。请不要提交不希望被处理的敏感信息。</p>
+
+      <h2>服务器日志</h2>
+      <p>为了排查错误、限制滥用和统计每日使用次数，服务器可能记录请求时间、IP 地址、选择的模型、问题摘要、返回状态、错误信息和模型回答。日志不会记录 API Key。</p>
+
+      <h2>第三方服务</h2>
+      <p>ChatGPT、Grok、Gemini 的回答由对应服务商处理和返回。第三方服务可能根据其自身条款处理请求内容，请在提交前自行判断是否适合发送。</p>
+
+      <h2>删除与联系</h2>
+      <p>如果需要咨询、反馈或请求删除相关记录，请联系：openclawtellme（at）gmail.com。为了定位记录，请尽量提供提交时间、问题关键词或页面地址。</p>
+
+      <div class="note">最终返回：<a href="https://star-style-studio.net/">星运占台 star-style-studio.net</a></div>
+    </section>
+
+    <footer>
+      <span>联系：openclawtellme（at）gmail.com</span>
+      <span>声明：AI生成内容，不代表本站观点，请谨慎甄别。</span>
+    </footer>
+
+  </main>
+</body>
+</html>
