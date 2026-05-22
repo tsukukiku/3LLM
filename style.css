@@ -616,6 +616,7 @@ button:disabled {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
   margin-top: 6px;
   padding: 0 10px;
@@ -624,9 +625,14 @@ button:disabled {
   line-height: 1.35;
 }
 
-.privacy-label {
+.footer-link {
   color: rgba(18, 111, 255, 0.72);
-  text-transform: lowercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
 }
 
 .error {
