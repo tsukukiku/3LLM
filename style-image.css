@@ -57,6 +57,25 @@ body.warm-image-page::after {
   border: 1px solid rgba(255, 154, 185, 0.24);
 }
 
+.model-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.model-select {
+  width: 150px;
+  min-height: 28px;
+  border: 1px solid rgba(255, 154, 185, 0.3);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #6f4f66;
+  font-size: 11px;
+  font-weight: 750;
+  padding: 0 8px;
+  outline: none;
+}
+
 .image-tools {
   display: flex;
   align-items: center;
@@ -115,6 +134,19 @@ body.warm-image-page::after {
     order: 3;
     width: 100%;
     font-size: 11px;
+  }
+  .model-picks {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .model-choice {
+    gap: 3px;
+  }
+  .model-select {
+    width: 92px;
+    min-height: 22px;
+    font-size: 9px;
+    padding: 0 4px;
   }
   .image-tools {
     gap: 5px;

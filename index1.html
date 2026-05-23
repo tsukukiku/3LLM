@@ -37,21 +37,30 @@
             <label><input type="radio" name="mode" value="math" /> 数学</label>
           </div>
           <div class="model-picks" aria-label="选择模型">
-            <label title="ChatGPT">
-              <img src="./assets/ai-chatgpt-icon-128.png" alt="ChatGPT" />
-              <input type="checkbox" name="model" value="gpt" />
-              <span></span>
-            </label>
-            <label title="Grok">
-              <img src="./assets/ai-grok-icon-128.png" alt="Grok" />
-              <input type="checkbox" name="model" value="grok" />
-              <span></span>
-            </label>
-            <label title="Gemini">
-              <img src="./assets/ai-gemini-icon-128.png" alt="Gemini" />
-              <input type="checkbox" name="model" value="gemini" />
-              <span></span>
-            </label>
+            <div class="model-choice" data-provider="gpt">
+              <label title="ChatGPT">
+                <img src="./assets/ai-chatgpt-icon-128.png" alt="ChatGPT" />
+                <input type="checkbox" name="model" value="gpt" checked />
+                <span></span>
+              </label>
+              <select class="model-select" data-model-select="gpt" aria-label="ChatGPT 模型"></select>
+            </div>
+            <div class="model-choice" data-provider="grok">
+              <label title="Grok">
+                <img src="./assets/ai-grok-icon-128.png" alt="Grok" />
+                <input type="checkbox" name="model" value="grok" />
+                <span></span>
+              </label>
+              <select class="model-select" data-model-select="grok" aria-label="Grok 模型"></select>
+            </div>
+            <div class="model-choice" data-provider="gemini">
+              <label title="Gemini">
+                <img src="./assets/ai-gemini-icon-128.png" alt="Gemini" />
+                <input type="checkbox" name="model" value="gemini" />
+                <span></span>
+              </label>
+              <select class="model-select" data-model-select="gemini" aria-label="Gemini 模型"></select>
+            </div>
           </div>
           <span id="status" class="status"></span>
         </div>
@@ -84,7 +93,7 @@
       </section>
 
       <section class="answers">
-        <article class="card response-card chatgpt-card panel">
+        <article id="gptCard" class="card response-card chatgpt-card panel" data-answer-card="gpt">
           <img class="watermark" src="./assets/wm-chatgpt.png?v=clean3" alt="" aria-hidden="true" />
           <div class="model-head">
             <div class="model-avatar"><img src="./assets/ai-chatgpt-icon.png" alt="" /></div>
@@ -94,7 +103,7 @@
           <div id="gpt" class="answer muted">这里会显示 ChatGPT 的图文回答</div>
         </article>
 
-        <article class="card response-card grok-card panel">
+        <article id="grokCard" class="card response-card grok-card panel" data-answer-card="grok" hidden>
           <img class="watermark" src="./assets/wm-grok.png?v=clean3" alt="" aria-hidden="true" />
           <div class="model-head">
             <div class="model-avatar"><img src="./assets/ai-grok-icon.png" alt="" /></div>
@@ -104,7 +113,7 @@
           <div id="grok" class="answer muted">这里会显示 Grok 的图文回答</div>
         </article>
 
-        <article class="card response-card gemini-card panel">
+        <article id="geminiCard" class="card response-card gemini-card panel" data-answer-card="gemini" hidden>
           <img class="watermark" src="./assets/wm-gemini.png?v=clean3" alt="" aria-hidden="true" />
           <div class="model-head">
             <div class="model-avatar"><img src="./assets/ai-gemini-icon.png" alt="" /></div>
@@ -122,6 +131,6 @@
         <span>声明：AI生成内容，不代表本站观点，请谨慎甄别。</span>
       </footer>
     </main>
-    <script src="./app-image.js?v=warm-20260523-500"></script>
+    <script src="./app-image.js?v=warm-20260523-models"></script>
   </body>
 </html>

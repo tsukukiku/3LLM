@@ -17,6 +17,12 @@ const panels = {
   grok: document.getElementById("grok")
 };
 
+const cards = {
+  gpt: document.getElementById("gptCard"),
+  gemini: document.getElementById("geminiCard"),
+  grok: document.getElementById("grokCard")
+};
+
 const states = {
   gpt: document.getElementById("gptState"),
   gemini: document.getElementById("geminiState"),
@@ -34,11 +40,32 @@ const placeholderText = {
   gemini: "这里会显示 Gemini 的图文回答",
   grok: "这里会显示 Grok 的图文回答"
 };
+const modelCatalog = {
+  normal: {
+    gpt: [{ label: "GPT 5.4 mini", value: "gpt-5.4-mini" }],
+    grok: [{ label: "Grok 4.3", value: "grok-4.3" }],
+    gemini: [{ label: "Gemini 2.5 Flash", value: "gemini-2.5-flash" }]
+  },
+  high: {
+    gpt: [{ label: "GPT 5.4", value: "gpt-5.4" }],
+    grok: [{ label: "Grok 4.3", value: "grok-4.3" }],
+    gemini: [{ label: "Gemini 3.1 Pro Preview", value: "gemini-3.1-pro-preview" }]
+  },
+  math: {
+    gpt: [{ label: "GPT 5.5", value: "gpt-5.5" }],
+    grok: [{ label: "Grok 4.20 Reasoning", value: "grok-4.20-0309-reasoning" }],
+    gemini: [{ label: "Gemini 3.1 Pro", value: "gemini-3.1-pro" }]
+  }
+};
 let preparedImage = null;
 let receivedStreamKeys = new Set();
 
+function selectedModeValue() {
+  return document.querySelector('input[name="mode"]:checked')?.value || "normal";
+}
+
 function getAskMode() {
-  const selected = document.querySelector('input[name="mode"]:checked')?.value || "normal";
+  const selected = selectedModeValue();
   const code = passcodeEl.value.trim();
   if (selected === "high") {
     return code === "ASK5.4" ? "high" : "";
@@ -52,6 +79,45 @@ function getAskMode() {
 function getSelectedModels() {
   return Array.from(document.querySelectorAll('input[name="model"]:checked')).map(function (item) {
     return item.value;
+  });
+}
+
+function getModelChoices() {
+  const choices = {};
+  getSelectedModels().forEach(function (key) {
+    const select = document.querySelector('[data-model-select="' + key + '"]');
+    if (select && select.value) {
+      choices[key] = select.value;
+    }
+  });
+  return choices;
+}
+
+function updateVisibleCards() {
+  const selected = new Set(getSelectedModels());
+  Object.keys(cards).forEach(function (key) {
+    if (cards[key]) {
+      cards[key].hidden = !selected.has(key);
+    }
+  });
+}
+
+function updateModelSelects() {
+  const mode = selectedModeValue();
+  Object.keys(modelCatalog[mode]).forEach(function (key) {
+    const select = document.querySelector('[data-model-select="' + key + '"]');
+    if (!select) return;
+    const current = select.value;
+    select.innerHTML = "";
+    modelCatalog[mode][key].forEach(function (item) {
+      const option = document.createElement("option");
+      option.value = item.value;
+      option.textContent = item.label + " / " + item.value;
+      select.appendChild(option);
+    });
+    if (Array.from(select.options).some(function (option) { return option.value === current; })) {
+      select.value = current;
+    }
   });
 }
 
@@ -181,6 +247,7 @@ function shortClientError(message) {
 function setLoading() {
   const selected = new Set(getSelectedModels());
   const mode = getAskMode();
+  updateVisibleCards();
   statusEl.textContent = mode === "math" ? "数学推理中" : mode === "high" ? "高阶请求中" : "请求中";
   Object.keys(panels).forEach(function (key) {
     if (selected.has(key)) {
@@ -278,7 +345,13 @@ async function askAll() {
     const resp = await fetch(API_BASE_URL + "/api/ask-stream", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question: question, mode: mode, models: models, image: preparedImage ? { mime: preparedImage.mime, data: preparedImage.data } : null })
+      body: JSON.stringify({
+        question: question,
+        mode: mode,
+        models: models,
+        modelChoices: getModelChoices(),
+        image: preparedImage ? { mime: preparedImage.mime, data: preparedImage.data } : null
+      })
     });
     if (!resp.ok) {
       const data = await resp.json().catch(function () { return null; });
@@ -316,6 +389,12 @@ function clearAll() {
     panels[key].className = "answer muted";
     setState(key, "", false);
   });
+  document.querySelectorAll('input[name="model"]').forEach(function (input) {
+    input.checked = input.value === "gpt";
+  });
+  document.querySelector('input[name="mode"][value="normal"]').checked = true;
+  updateModelSelects();
+  updateVisibleCards();
   updateQuestionBox();
 }
 
@@ -338,6 +417,14 @@ function exportTxt() {
 }
 
 questionEl.addEventListener("input", updateQuestionBox);
+document.querySelectorAll('input[name="mode"]').forEach(function (input) {
+  input.addEventListener("change", function () {
+    updateModelSelects();
+  });
+});
+document.querySelectorAll('input[name="model"]').forEach(function (input) {
+  input.addEventListener("change", updateVisibleCards);
+});
 window.addEventListener("orientationchange", function () { setTimeout(autoGrowQuestion, 250); });
 window.addEventListener("resize", autoGrowQuestion);
 imageInput.addEventListener("change", handleImageChange);
@@ -345,4 +432,6 @@ removeImageBtn.addEventListener("click", removeImage);
 askBtn.addEventListener("click", askAll);
 clearBtn.addEventListener("click", clearAll);
 exportBtn.addEventListener("click", exportTxt);
+updateModelSelects();
+updateVisibleCards();
 updateQuestionBox();
