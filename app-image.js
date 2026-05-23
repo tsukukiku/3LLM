@@ -423,13 +423,38 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function normalizeMathText(value) {
+  return String(value || "")
+    .replaceAll("\\\\(", "\\(")
+    .replaceAll("\\\\)", "\\)")
+    .replaceAll("\\\\[", "\\[")
+    .replaceAll("\\\\]", "\\]");
+}
+
+function inlineMarkdown(value) {
+  return escapeHtml(normalizeMathText(value))
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+
 function markdownToHtml(value) {
-  const lines = String(value || "").split("\n");
+  const lines = normalizeMathText(value).split("\n");
   const html = [];
   let inList = false;
+  let inDisplayMath = false;
+  let displayMathLines = [];
   lines.forEach(function (line) {
     const raw = line.trimEnd();
     const text = raw.trim();
+    if (inDisplayMath) {
+      displayMathLines.push(raw);
+      if (text.includes("\\]")) {
+        html.push('<div class="math-block">' + escapeHtml(displayMathLines.join("\n")) + "</div>");
+        inDisplayMath = false;
+        displayMathLines = [];
+      }
+      return;
+    }
     if (!text) {
       if (inList) {
         html.push("</ul>");
@@ -437,14 +462,25 @@ function markdownToHtml(value) {
       }
       return;
     }
+    if (text.startsWith("\\[") && !text.includes("\\]")) {
+      if (inList) { html.push("</ul>"); inList = false; }
+      inDisplayMath = true;
+      displayMathLines = [raw];
+      return;
+    }
+    if (text.startsWith("\\[") && text.includes("\\]")) {
+      if (inList) { html.push("</ul>"); inList = false; }
+      html.push('<div class="math-block">' + escapeHtml(raw) + "</div>");
+      return;
+    }
     if (text.startsWith("### ")) {
       if (inList) { html.push("</ul>"); inList = false; }
-      html.push("<h3>" + escapeHtml(text.slice(4)) + "</h3>");
+      html.push("<h3>" + inlineMarkdown(text.slice(4)) + "</h3>");
       return;
     }
     if (text.startsWith("## ")) {
       if (inList) { html.push("</ul>"); inList = false; }
-      html.push("<h2>" + escapeHtml(text.slice(3)) + "</h2>");
+      html.push("<h2>" + inlineMarkdown(text.slice(3)) + "</h2>");
       return;
     }
     if (text === "---") {
@@ -457,15 +493,18 @@ function markdownToHtml(value) {
         html.push("<ul>");
         inList = true;
       }
-      html.push("<li>" + escapeHtml(text.replace(/^[-*]\s+/, "")) + "</li>");
+      html.push("<li>" + inlineMarkdown(text.replace(/^[-*]\s+/, "")) + "</li>");
       return;
     }
     if (inList) {
       html.push("</ul>");
       inList = false;
     }
-    html.push("<p>" + escapeHtml(text) + "</p>");
+    html.push("<p>" + inlineMarkdown(text) + "</p>");
   });
+  if (inDisplayMath && displayMathLines.length) {
+    html.push('<div class="math-block">' + escapeHtml(displayMathLines.join("\n")) + "</div>");
+  }
   if (inList) {
     html.push("</ul>");
   }
@@ -528,6 +567,14 @@ function exportHtml() {
     p, li {
       font-size: 17px;
     }
+    code {
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #f3efe8;
+      color: #80533d;
+      font-family: "Cascadia Mono", Consolas, monospace;
+      font-size: 0.92em;
+    }
     .meta {
       color: #667085;
       font-size: 14px;
@@ -546,6 +593,11 @@ function exportHtml() {
       overflow-x: auto;
       overflow-y: hidden;
     }
+    .math-block {
+      margin: 1.1em 0;
+      text-align: center;
+      white-space: pre-wrap;
+    }
   </style>
   <script>
     window.MathJax = {
@@ -558,6 +610,13 @@ function exportHtml() {
     };
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    });
+  </script>
 </head>
 <body>
   <main>
