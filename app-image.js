@@ -35,6 +35,7 @@ const placeholderText = {
   grok: "这里会显示 Grok 的图文回答"
 };
 let preparedImage = null;
+let receivedStreamKeys = new Set();
 
 function getAskMode() {
   const selected = document.querySelector('input[name="mode"]:checked')?.value || "normal";
@@ -242,9 +243,15 @@ async function readStreamResults(resp) {
     for (const eventText of events) {
       const line = eventText.split("\n").find(function (item) { return item.startsWith("data: "); });
       if (!line) continue;
-      const payload = JSON.parse(line.slice(6));
+      let payload = null;
+      try {
+        payload = JSON.parse(line.slice(6));
+      } catch (_error) {
+        continue;
+      }
       if (payload.type === "result") {
         completed += 1;
+        receivedStreamKeys.add(payload.key);
         renderOneResult(payload.key, payload.item);
         statusEl.textContent = "已完成 " + completed + " / " + total;
       }
@@ -265,6 +272,7 @@ async function askAll() {
   if (question.length > MAX_QUESTION_CHARS) { alert("提示词不能超过 " + MAX_QUESTION_CHARS + " 字"); questionEl.focus(); return; }
 
   askBtn.disabled = true;
+  receivedStreamKeys = new Set();
   setLoading();
   try {
     const resp = await fetch(API_BASE_URL + "/api/ask-stream", {
@@ -284,7 +292,11 @@ async function askAll() {
     }
   } catch (error) {
     statusEl.textContent = "失败";
+    const selected = new Set(models);
     Object.keys(panels).forEach(function (key) {
+      if (!selected.has(key) || receivedStreamKeys.has(key)) {
+        return;
+      }
       panels[key].textContent = shortClientError(error && error.message ? error.message : String(error));
       panels[key].className = "answer error";
       setState(key, "失败", true);
