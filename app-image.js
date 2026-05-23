@@ -253,7 +253,7 @@ function setLoading() {
   Object.keys(panels).forEach(function (key) {
     if (selected.has(key)) {
       panels[key].textContent = "思考中...";
-      panels[key].className = "answer muted";
+      panels[key].className = "answer muted thinking";
       setState(key, "请求中", false);
     } else {
       panels[key].textContent = "未选择";
