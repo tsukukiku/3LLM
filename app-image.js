@@ -102,6 +102,10 @@ function updateVisibleCards() {
 }
 
 function updateModelSelects() {
+  if (!providerModelSelect) {
+    updateVisibleCards();
+    return;
+  }
   const mode = selectedModeValue();
   const current = providerModelSelect.value;
   providerModelSelect.innerHTML = "";
@@ -581,11 +585,15 @@ document.querySelectorAll('input[name="mode"]').forEach(function (input) {
     updateModelSelects();
   });
 });
-providerModelSelect.addEventListener("change", updateVisibleCards);
+if (providerModelSelect) {
+  providerModelSelect.addEventListener("change", updateVisibleCards);
+}
 window.addEventListener("orientationchange", function () { setTimeout(autoGrowQuestion, 250); });
 window.addEventListener("resize", autoGrowQuestion);
 imageInput.addEventListener("change", handleImageChange);
-removeImageBtn.addEventListener("click", removeImage);
+if (removeImageBtn) {
+  removeImageBtn.addEventListener("click", removeImage);
+}
 askBtn.addEventListener("click", askAll);
 clearBtn.addEventListener("click", clearAll);
 if (exportBtn) {

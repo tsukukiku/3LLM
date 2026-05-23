@@ -56,11 +56,20 @@ body.warm-image-page::after {
   border: 0;
 }
 
+.mode-picks input {
+  accent-color: #f0649c;
+}
+
 .image-quota {
   color: #8c6a7e;
   font-size: 13px;
   font-weight: 750;
   white-space: nowrap;
+}
+
+.model-picks {
+  gap: 6px;
+  margin-left: 0;
 }
 
 .model-select {
@@ -74,17 +83,6 @@ body.warm-image-page::after {
   font-weight: 750;
   padding: 0 10px;
   outline: none;
-}
-
-.model-picks {
-  gap: 6px;
-}
-
-.model-pick-title {
-  color: #7f6072;
-  font-size: 13px;
-  font-weight: 800;
-  white-space: nowrap;
 }
 
 .html-export {
@@ -161,19 +159,14 @@ body.warm-image-page::after {
     width: 100%;
     font-size: 11px;
   }
-  .model-picks {
-    order: 4;
-    width: 100%;
-    justify-content: flex-end;
+  .html-export {
+    min-width: 76px;
   }
   .model-select {
-    width: 142px;
+    width: 140px;
     min-height: 24px;
     font-size: 10px;
     padding: 0 7px;
-  }
-  .html-export {
-    min-width: 76px;
   }
   .warm-image-page .answer {
     min-height: 196px;
