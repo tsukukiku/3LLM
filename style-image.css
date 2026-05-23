@@ -91,6 +91,23 @@ body.warm-image-page::after {
   box-shadow: 0 16px 36px rgba(202, 82, 137, 0.24);
 }
 
+.warm-image-page textarea {
+  color: #4b5d78;
+  font: 20px/1.55 var(--font);
+  font-weight: 520;
+}
+
+.warm-image-page textarea::placeholder {
+  color: rgba(118, 134, 166, 0.62);
+  font-weight: 480;
+}
+
+.warm-image-page .count {
+  color: rgba(110, 124, 152, 0.48);
+  font-size: 17px;
+  font-weight: 620;
+}
+
 .warm-image-page .answer {
   min-height: 308px;
   max-height: 620px;
@@ -185,6 +202,14 @@ body.warm-image-page::after {
   .warm-image-page .answer {
     min-height: 196px;
     max-height: 420px;
+  }
+  .warm-image-page textarea {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .warm-image-page .count {
+    font-size: 11px;
+    color: rgba(110, 124, 152, 0.44);
   }
   .image-tools {
     gap: 5px;
