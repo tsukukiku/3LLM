@@ -30,13 +30,13 @@
 
       <section class="card question-card panel image-question-card">
         <div class="section-head">
-          <div class="quota">◇ 每日5问 · 图片小于5MB</div>
           <div class="mode-picks" aria-label="选择模式">
             <label><input type="radio" name="mode" value="normal" checked /> 普通</label>
             <label><input type="radio" name="mode" value="high" /> 高阶</label>
             <label><input type="radio" name="mode" value="math" /> 数学家</label>
           </div>
           <div class="model-picks" aria-label="选择模型">
+            <span class="model-pick-title">模型选择</span>
             <select id="providerModelSelect" class="model-select provider-model-select" aria-label="选择模型"></select>
           </div>
           <span id="status" class="status"></span>
@@ -54,6 +54,7 @@
           </label>
           <button id="removeImageBtn" class="secondary tiny" type="button">移除图片</button>
           <span id="imageStatus" class="image-status">未选择图片</span>
+          <span class="quota image-quota">每日5问 · 图片小于5MB</span>
         </div>
         <div id="imagePreview" class="image-preview" hidden>
           <img id="previewImg" alt="图片预览" />
@@ -65,7 +66,6 @@
             <button id="askBtn" class="primary" type="button">✦ 提交问题</button>
             <button id="clearBtn" class="secondary" type="button">清空</button>
           </div>
-          <button id="exportBtn" class="export" type="button">下载TXT</button>
           <button id="exportHtmlBtn" class="export html-export" type="button">下载HTML</button>
         </div>
       </section>

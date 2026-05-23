@@ -588,7 +588,9 @@ imageInput.addEventListener("change", handleImageChange);
 removeImageBtn.addEventListener("click", removeImage);
 askBtn.addEventListener("click", askAll);
 clearBtn.addEventListener("click", clearAll);
-exportBtn.addEventListener("click", exportTxt);
+if (exportBtn) {
+  exportBtn.addEventListener("click", exportTxt);
+}
 exportHtmlBtn.addEventListener("click", exportHtml);
 updateModelSelects();
 updateVisibleCards();
