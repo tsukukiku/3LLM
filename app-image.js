@@ -1,6 +1,7 @@
 const askBtn = document.getElementById("askBtn");
 const clearBtn = document.getElementById("clearBtn");
 const exportBtn = document.getElementById("exportBtn");
+const exportHtmlBtn = document.getElementById("exportHtmlBtn");
 const questionEl = document.getElementById("question");
 const passcodeEl = document.getElementById("passcode");
 const statusEl = document.getElementById("status");
@@ -10,6 +11,7 @@ const imageStatus = document.getElementById("imageStatus");
 const imagePreview = document.getElementById("imagePreview");
 const previewImg = document.getElementById("previewImg");
 const removeImageBtn = document.getElementById("removeImageBtn");
+const providerModelSelect = document.getElementById("providerModelSelect");
 
 const panels = {
   gpt: document.getElementById("gpt"),
@@ -41,21 +43,21 @@ const placeholderText = {
   grok: "这里会显示 Grok 的图文回答"
 };
 const modelCatalog = {
-  normal: {
-    gpt: [{ label: "GPT 5.4 mini", value: "gpt-5.4-mini" }],
-    grok: [{ label: "Grok 4.3", value: "grok-4.3" }],
-    gemini: [{ label: "Gemini 2.5 Flash", value: "gemini-2.5-flash" }]
-  },
-  high: {
-    gpt: [{ label: "GPT 5.4", value: "gpt-5.4" }],
-    grok: [{ label: "Grok 4.3", value: "grok-4.3" }],
-    gemini: [{ label: "Gemini 3.1 Pro Preview", value: "gemini-3.1-pro-preview" }]
-  },
-  math: {
-    gpt: [{ label: "GPT 5.5", value: "gpt-5.5" }],
-    grok: [{ label: "Grok 4.20 Reasoning", value: "grok-4.20-0309-reasoning" }],
-    gemini: [{ label: "Gemini 3.1 Pro", value: "gemini-3.1-pro" }]
-  }
+  normal: [
+    { provider: "gpt", label: "GPT 5.4 mini", value: "gpt-5.4-mini" },
+    { provider: "grok", label: "Grok 4.3", value: "grok-4.3" },
+    { provider: "gemini", label: "Gemini 2.5 flash", value: "gemini-2.5-flash" }
+  ],
+  high: [
+    { provider: "gpt", label: "GPT 5.4", value: "gpt-5.4" },
+    { provider: "grok", label: "Grok 4.3", value: "grok-4.3" },
+    { provider: "gemini", label: "Gemini 3.1 Pro Preview", value: "gemini-3.1-pro-preview" }
+  ],
+  math: [
+    { provider: "gpt", label: "GPT 5.5", value: "gpt-5.5" },
+    { provider: "grok", label: "Grok 4.20 Reasoning", value: "grok-4.20-0309-reasoning" },
+    { provider: "gemini", label: "Gemini 3.1 Pro", value: "gemini-3.1-pro" }
+  ]
 };
 let preparedImage = null;
 let receivedStreamKeys = new Set();
@@ -77,19 +79,16 @@ function getAskMode() {
 }
 
 function getSelectedModels() {
-  return Array.from(document.querySelectorAll('input[name="model"]:checked')).map(function (item) {
-    return item.value;
-  });
+  const option = providerModelSelect?.selectedOptions?.[0];
+  return option?.dataset?.provider ? [option.dataset.provider] : ["gpt"];
 }
 
 function getModelChoices() {
   const choices = {};
-  getSelectedModels().forEach(function (key) {
-    const select = document.querySelector('[data-model-select="' + key + '"]');
-    if (select && select.value) {
-      choices[key] = select.value;
-    }
-  });
+  const option = providerModelSelect?.selectedOptions?.[0];
+  if (option?.dataset?.provider && providerModelSelect.value) {
+    choices[option.dataset.provider] = providerModelSelect.value;
+  }
   return choices;
 }
 
@@ -104,21 +103,19 @@ function updateVisibleCards() {
 
 function updateModelSelects() {
   const mode = selectedModeValue();
-  Object.keys(modelCatalog[mode]).forEach(function (key) {
-    const select = document.querySelector('[data-model-select="' + key + '"]');
-    if (!select) return;
-    const current = select.value;
-    select.innerHTML = "";
-    modelCatalog[mode][key].forEach(function (item) {
-      const option = document.createElement("option");
-      option.value = item.value;
-      option.textContent = item.label + " / " + item.value;
-      select.appendChild(option);
-    });
-    if (Array.from(select.options).some(function (option) { return option.value === current; })) {
-      select.value = current;
-    }
+  const current = providerModelSelect.value;
+  providerModelSelect.innerHTML = "";
+  modelCatalog[mode].forEach(function (item) {
+    const option = document.createElement("option");
+    option.value = item.value;
+    option.dataset.provider = item.provider;
+    option.textContent = item.label;
+    providerModelSelect.appendChild(option);
   });
+  if (Array.from(providerModelSelect.options).some(function (option) { return option.value === current; })) {
+    providerModelSelect.value = current;
+  }
+  updateVisibleCards();
 }
 
 function setState(key, text, isError) {
@@ -335,7 +332,7 @@ async function askAll() {
   const models = getSelectedModels();
   if (!question) { alert("请先输入提示词"); questionEl.focus(); return; }
   if (!mode) { alert("请输入正确口令ASKXXX"); passcodeEl.focus(); return; }
-  if (models.length === 0) { alert("请至少选择一个模型"); return; }
+  if (models.length === 0) { alert("请选择一个模型"); return; }
   if (question.length > MAX_QUESTION_CHARS) { alert("提示词不能超过 " + MAX_QUESTION_CHARS + " 字"); questionEl.focus(); return; }
 
   askBtn.disabled = true;
@@ -389,9 +386,6 @@ function clearAll() {
     panels[key].className = "answer muted";
     setState(key, "", false);
   });
-  document.querySelectorAll('input[name="model"]').forEach(function (input) {
-    input.checked = input.value === "gpt";
-  });
   document.querySelector('input[name="mode"][value="normal"]').checked = true;
   updateModelSelects();
   updateVisibleCards();
@@ -416,15 +410,178 @@ function exportTxt() {
   URL.revokeObjectURL(url);
 }
 
+function escapeHtml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function markdownToHtml(value) {
+  const lines = String(value || "").split("\n");
+  const html = [];
+  let inList = false;
+  lines.forEach(function (line) {
+    const raw = line.trimEnd();
+    const text = raw.trim();
+    if (!text) {
+      if (inList) {
+        html.push("</ul>");
+        inList = false;
+      }
+      return;
+    }
+    if (text.startsWith("### ")) {
+      if (inList) { html.push("</ul>"); inList = false; }
+      html.push("<h3>" + escapeHtml(text.slice(4)) + "</h3>");
+      return;
+    }
+    if (text.startsWith("## ")) {
+      if (inList) { html.push("</ul>"); inList = false; }
+      html.push("<h2>" + escapeHtml(text.slice(3)) + "</h2>");
+      return;
+    }
+    if (text === "---") {
+      if (inList) { html.push("</ul>"); inList = false; }
+      html.push("<hr />");
+      return;
+    }
+    if (/^[-*]\s+/.test(text)) {
+      if (!inList) {
+        html.push("<ul>");
+        inList = true;
+      }
+      html.push("<li>" + escapeHtml(text.replace(/^[-*]\s+/, "")) + "</li>");
+      return;
+    }
+    if (inList) {
+      html.push("</ul>");
+      inList = false;
+    }
+    html.push("<p>" + escapeHtml(text) + "</p>");
+  });
+  if (inList) {
+    html.push("</ul>");
+  }
+  return html.join("\n");
+}
+
+function htmlSection(title, body) {
+  return [
+    '<section class="qa-section">',
+    "<h1>" + escapeHtml(title) + "</h1>",
+    markdownToHtml(body || "(空)"),
+    "</section>"
+  ].join("\n");
+}
+
+function exportHtml() {
+  const question = questionEl.value.trim() || "(空)";
+  const imageLine = preparedImage ? "已附加图片：" + formatSize(preparedImage.bytes) : "未附加图片";
+  const doc = `<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>一问三知 数学排版记录</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 36px 20px;
+      color: #182235;
+      background: #fbfaf7;
+      font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+      line-height: 1.85;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 38px 44px;
+      background: #fff;
+      border: 1px solid #e8e1d7;
+      box-shadow: 0 20px 60px rgba(35, 45, 70, 0.12);
+    }
+    h1, h2, h3 {
+      color: #101a2d;
+      line-height: 1.35;
+    }
+    h1 {
+      font-size: 26px;
+      border-bottom: 1px solid #e8e1d7;
+      padding-bottom: 10px;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 21px;
+      margin-top: 30px;
+    }
+    h3 {
+      font-size: 18px;
+      margin-top: 24px;
+    }
+    p, li {
+      font-size: 17px;
+    }
+    .meta {
+      color: #667085;
+      font-size: 14px;
+      margin-bottom: 26px;
+    }
+    .qa-section {
+      margin: 26px 0 34px;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #e8e1d7;
+      margin: 28px 0;
+    }
+    mjx-container[display="true"] {
+      margin: 1.1em 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\\\(', '\\\\)']],
+        displayMath: [['\\\\[', '\\\\]']],
+        processEscapes: true
+      },
+      chtml: { scale: 1.04 }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <main>
+    <h1>一问三知 数学排版记录</h1>
+    <div class="meta">导出时间：${escapeHtml(new Date().toLocaleString())}<br />图片：${escapeHtml(imageLine)}</div>
+    ${htmlSection("用户提示词", question)}
+    ${htmlSection("ChatGPT", panels.gpt.innerText.trim())}
+    ${htmlSection("Grok", panels.grok.innerText.trim())}
+    ${htmlSection("Gemini", panels.gemini.innerText.trim())}
+  </main>
+</body>
+</html>`;
+  const blob = new Blob([doc], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "yiwen-sanzhi-math-" + new Date().toISOString().slice(0, 10) + ".html";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 questionEl.addEventListener("input", updateQuestionBox);
 document.querySelectorAll('input[name="mode"]').forEach(function (input) {
   input.addEventListener("change", function () {
     updateModelSelects();
   });
 });
-document.querySelectorAll('input[name="model"]').forEach(function (input) {
-  input.addEventListener("change", updateVisibleCards);
-});
+providerModelSelect.addEventListener("change", updateVisibleCards);
 window.addEventListener("orientationchange", function () { setTimeout(autoGrowQuestion, 250); });
 window.addEventListener("resize", autoGrowQuestion);
 imageInput.addEventListener("change", handleImageChange);
@@ -432,6 +589,7 @@ removeImageBtn.addEventListener("click", removeImage);
 askBtn.addEventListener("click", askAll);
 clearBtn.addEventListener("click", clearAll);
 exportBtn.addEventListener("click", exportTxt);
+exportHtmlBtn.addEventListener("click", exportHtml);
 updateModelSelects();
 updateVisibleCards();
 updateQuestionBox();

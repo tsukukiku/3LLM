@@ -20,7 +20,7 @@
               <h1>一问三知</h1>
               <strong>三家解数</strong>
             </div>
-            <p>向三大AI提问，比较答案，取长补短。</p>
+            <p>数学解题问三大AI，启发思考</p>
           </div>
           <a class="back-home" href="https://star-style-studio.net/" aria-label="返回 star-style-studio.net">返回</a>
           <span class="hero-spark" aria-hidden="true">✦</span>
@@ -34,33 +34,10 @@
           <div class="mode-picks" aria-label="选择模式">
             <label><input type="radio" name="mode" value="normal" checked /> 普通</label>
             <label><input type="radio" name="mode" value="high" /> 高阶</label>
-            <label><input type="radio" name="mode" value="math" /> 数学</label>
+            <label><input type="radio" name="mode" value="math" /> 数学家</label>
           </div>
           <div class="model-picks" aria-label="选择模型">
-            <div class="model-choice" data-provider="gpt">
-              <label title="ChatGPT">
-                <img src="./assets/ai-chatgpt-icon-128.png" alt="ChatGPT" />
-                <input type="checkbox" name="model" value="gpt" checked />
-                <span></span>
-              </label>
-              <select class="model-select" data-model-select="gpt" aria-label="ChatGPT 模型"></select>
-            </div>
-            <div class="model-choice" data-provider="grok">
-              <label title="Grok">
-                <img src="./assets/ai-grok-icon-128.png" alt="Grok" />
-                <input type="checkbox" name="model" value="grok" />
-                <span></span>
-              </label>
-              <select class="model-select" data-model-select="grok" aria-label="Grok 模型"></select>
-            </div>
-            <div class="model-choice" data-provider="gemini">
-              <label title="Gemini">
-                <img src="./assets/ai-gemini-icon-128.png" alt="Gemini" />
-                <input type="checkbox" name="model" value="gemini" />
-                <span></span>
-              </label>
-              <select class="model-select" data-model-select="gemini" aria-label="Gemini 模型"></select>
-            </div>
+            <select id="providerModelSelect" class="model-select provider-model-select" aria-label="选择模型"></select>
           </div>
           <span id="status" class="status"></span>
         </div>
@@ -89,6 +66,7 @@
             <button id="clearBtn" class="secondary" type="button">清空</button>
           </div>
           <button id="exportBtn" class="export" type="button">下载TXT</button>
+          <button id="exportHtmlBtn" class="export html-export" type="button">下载HTML</button>
         </div>
       </section>
 
@@ -131,6 +109,6 @@
         <span>声明：AI生成内容，不代表本站观点，请谨慎甄别。</span>
       </footer>
     </main>
-    <script src="./app-image.js?v=warm-20260523-models"></script>
+    <script src="./app-image.js?v=warm-20260523-html-export"></script>
   </body>
 </html>
