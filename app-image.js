@@ -26,7 +26,7 @@ const states = {
 const API_BASE_URL = ["star-style-studio.net", "www.star-style-studio.net"].includes(location.hostname)
   ? "https://api.star-style-studio.net"
   : "";
-const MAX_QUESTION_CHARS = 200;
+const MAX_QUESTION_CHARS = 500;
 const MAX_ORIGINAL_IMAGE_BYTES = 5 * 1024 * 1024;
 const MAX_SEND_IMAGE_BYTES = 2 * 1024 * 1024;
 const placeholderText = {
