@@ -117,6 +117,10 @@ body.warm-image-page::after {
   animation: thinkingPulse 1.15s ease-in-out infinite;
 }
 
+.warm-image-page .thinking-status {
+  animation: thinkingPulse 1.15s ease-in-out infinite;
+}
+
 @keyframes thinkingPulse {
   0%, 100% {
     opacity: 0.34;

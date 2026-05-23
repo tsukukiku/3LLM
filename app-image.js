@@ -250,6 +250,7 @@ function setLoading() {
   const mode = getAskMode();
   updateVisibleCards();
   statusEl.textContent = mode === "math" ? "数学推理中" : mode === "high" ? "高阶请求中" : "请求中";
+  statusEl.classList.add("thinking-status");
   Object.keys(panels).forEach(function (key) {
     if (selected.has(key)) {
       panels[key].textContent = "思考中...";
@@ -278,6 +279,7 @@ function renderOneResult(key, item) {
 function renderResult(data) {
   const selected = new Set(data && data.models ? data.models : getSelectedModels());
   statusEl.textContent = "完成";
+  statusEl.classList.remove("thinking-status");
   Object.keys(panels).forEach(function (key) {
     if (!selected.has(key)) {
       panels[key].textContent = "未选择";
@@ -325,6 +327,7 @@ async function readStreamResults(resp) {
       }
       if (payload.type === "done") {
         statusEl.textContent = "完成";
+        statusEl.classList.remove("thinking-status");
       }
     }
   }
@@ -366,6 +369,7 @@ async function askAll() {
     }
   } catch (error) {
     statusEl.textContent = "失败";
+    statusEl.classList.remove("thinking-status");
     const selected = new Set(models);
     Object.keys(panels).forEach(function (key) {
       if (!selected.has(key) || receivedStreamKeys.has(key)) {
@@ -384,6 +388,7 @@ function clearAll() {
   questionEl.value = "";
   passcodeEl.value = "";
   statusEl.textContent = "";
+  statusEl.classList.remove("thinking-status");
   removeImage();
   Object.keys(panels).forEach(function (key) {
     panels[key].textContent = placeholderText[key];
