@@ -113,6 +113,19 @@ body.warm-image-page::after {
   max-height: 620px;
 }
 
+.warm-image-page .answer.thinking {
+  animation: thinkingPulse 1.15s ease-in-out infinite;
+}
+
+@keyframes thinkingPulse {
+  0%, 100% {
+    opacity: 0.34;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .image-tools {
   display: flex;
   align-items: center;
