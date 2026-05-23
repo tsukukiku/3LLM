@@ -40,7 +40,10 @@ function getAskMode() {
   const selected = document.querySelector('input[name="mode"]:checked')?.value || "normal";
   const code = passcodeEl.value.trim();
   if (selected === "high") {
-    return code === "ASK5.3" ? "high" : "";
+    return code === "ASK5.4" ? "high" : "";
+  }
+  if (selected === "math") {
+    return code === "ASK5.5" ? "math" : "";
   }
   return code === "ASK3" ? "normal" : "";
 }
@@ -176,7 +179,8 @@ function shortClientError(message) {
 
 function setLoading() {
   const selected = new Set(getSelectedModels());
-  statusEl.textContent = getAskMode() === "high" ? "高阶请求中" : "请求中";
+  const mode = getAskMode();
+  statusEl.textContent = mode === "math" ? "数学推理中" : mode === "high" ? "高阶请求中" : "请求中";
   Object.keys(panels).forEach(function (key) {
     if (selected.has(key)) {
       panels[key].textContent = "思考中...";
