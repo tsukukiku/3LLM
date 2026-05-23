@@ -92,20 +92,20 @@ body.warm-image-page::after {
 }
 
 .warm-image-page textarea {
-  color: #4b5d78;
-  font: 20px/1.55 var(--font);
-  font-weight: 520;
+  color: rgba(75, 93, 120, 0.78);
+  font: 18px/1.52 var(--font);
+  font-weight: 460;
 }
 
 .warm-image-page textarea::placeholder {
-  color: rgba(118, 134, 166, 0.62);
-  font-weight: 480;
+  color: rgba(118, 134, 166, 0.46);
+  font-weight: 420;
 }
 
 .warm-image-page .count {
-  color: rgba(110, 124, 152, 0.48);
-  font-size: 17px;
-  font-weight: 620;
+  color: rgba(110, 124, 152, 0.34);
+  font-size: 14px;
+  font-weight: 560;
 }
 
 .warm-image-page .answer {
@@ -204,12 +204,12 @@ body.warm-image-page::after {
     max-height: 420px;
   }
   .warm-image-page textarea {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.5;
   }
   .warm-image-page .count {
-    font-size: 11px;
-    color: rgba(110, 124, 152, 0.44);
+    font-size: 10px;
+    color: rgba(110, 124, 152, 0.32);
   }
   .image-tools {
     gap: 5px;
